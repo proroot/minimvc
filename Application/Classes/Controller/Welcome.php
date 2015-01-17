@@ -6,6 +6,6 @@ class Controller_Welcome extends Controller
 {
 	public function ActionIndex()
 	{
-		$this->response = 'Hello';
+		$this->response = 'Test';
 	}
 }
