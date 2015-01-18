@@ -31,20 +31,20 @@ Route::Set('home')
 	])
 	->Home();
 
-// Core_Route::Set('test')
-// 	->Defaults([
-// 		'controller' => 'Welcome',
-// 		'action'     => 'Index'
-// 	]);
+Route::Set('test')
+	->Defaults([
+		'controller' => 'Welcome',
+		'action'     => 'Index'
+	]);
 
-// Core_Route::Set('test_2')
-// 	->Defaults([
-// 		'controller' => 'Test',
-// 		'action'     => 'Index'
-// 	]);
+Route::Set('test_2')
+	->Defaults([
+		'controller' => 'Test',
+		'action'     => 'Index'
+	]);
 
-// Core_Route::Set('errorPage')
-// 	->Defaults([
-// 		'controller' => 'Error'
-// 	])
-// 	->Error();
+Route::Set('errorPage')
+	->Defaults([
+		'controller' => 'Error'
+	])
+	->Error();
