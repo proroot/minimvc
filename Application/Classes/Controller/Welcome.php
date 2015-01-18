@@ -6,4 +6,9 @@ class Controller_Welcome extends Core\Controller
 	{
 		$this->response = 'Hello';
 	}
+
+	public function Action_2Index()
+	{
+		$this->response = 'Test';
+	}
 }
