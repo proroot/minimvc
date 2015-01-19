@@ -6,9 +6,6 @@
 
 require_once APPPATH . 'Classes/Core/Core.php';
 
-use Core\Core;
-use Core\Route;
-
 /**
  * Enable the Core autoLoader.
  */
@@ -23,7 +20,9 @@ set_exception_handler([
 	'Handler'
 ]);
 
-Core::Init();
+Core\Core::Init();
+
+use Core\Route;
 
 Route::Set('home')
 	->Defaults([
