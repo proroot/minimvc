@@ -8,14 +8,4 @@ class Controller_Welcome extends Core\Controller
 
 		// test
 	}
-
-	public function Action_2Index()
-	{
-		$this->response = 'Test';
-
-		$this->response = 'Test';
-
-		// Test
-		$this->response = 'Test';
-	}
 }
