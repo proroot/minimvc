@@ -26,7 +26,7 @@ class Core
 	 * @return  void
 	 */
 
-	public static function Init(array $settings = null)
+	public static function Init(array $settings = [])
 	{
 		ob_start();
 
@@ -92,6 +92,6 @@ class Core
 
 	public static function Load($file)
 	{
-		return require_once $file;
+		return require_once ($file);
 	}
 }

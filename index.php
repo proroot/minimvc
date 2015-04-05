@@ -10,7 +10,7 @@ define ('START_TIME', microtime (true));
  * Start memory
  */
 
-define ('START_MEMORY', memory_get_usage ());
+define ('START_MEMORY', memory_get_usage());
 
 /**
  * Debug code
@@ -48,19 +48,18 @@ define ('APPPATH', realpath (DOCROOT . 'Application') . DS);
 
 if (DEBUG)
 {
-	error_reporting (E_ALL);
+	error_reporting (-1);
 
 	ini_set ('display_errors', true);
 }
 else
-	error_reporting (0);
-
+	error_reporting(0);
 
 /**
  * Bootstrap the application
  */
 
-require_once APPPATH . 'Bootstrap.php';
+require_once (APPPATH . 'Bootstrap.php');
 
-echo Core\Request::Factory ()
-	->Execute ();
+echo Core\Request::Factory()
+	->Execute();

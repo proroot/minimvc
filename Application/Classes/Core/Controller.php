@@ -6,27 +6,27 @@ use Core\Exception\Exception;
 
 abstract class Controller
 {
-	public $request;
+	public $uRequest;
 
-	public $response;
+	public $uResponse;
 
-	public function __construct (Request $request)
+	public function __construct (Request $uRequest)
 	{
-		$this->request = $request;
+		$this->uRequest = $uRequest;
 
-		$action = 'Action' . $this->request->Action();
+		$uAction = 'Action' . $this->uRequest->Action();
 
-		if ( ! method_exists($this, $action))
-			throw new Exception('Не существует метод: :method у контроллера: :controller', [
-				':method'     => $action,
-				':controller' => $this->request->Controller()
+		if ( ! method_exists ($this, $uAction))
+			throw new Exception ('Не существует метод: :uMethod у контроллера: :uController', [
+				':uMethod'     => $uAction,
+				':uController' => $this->uRequest->Controller()
 			]);
 
-		$this->{$action}();
+		$this->{$uAction}();
 	}
 
-	public function __toString ()
+	public function __toString()
 	{
-		return $this->response;
+		return $this->uResponse;
 	}
 }

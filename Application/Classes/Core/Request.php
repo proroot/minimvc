@@ -7,7 +7,7 @@ use Core\Exception\Exception;
 
 class Request
 {
-	private static $trustedProxies = [
+	private static $uTrustedProxies = [
 		'127.0.0.1',
 		'localhost',
 		'localhost.localdomain'
@@ -15,61 +15,61 @@ class Request
 
 	public static function Factory()
 	{
-		$request = new self;
+		$uRequest = new self;
 
-		$request->Method(isset($_SERVER['REQUEST_METHOD'])
+		$uRequest->Method (isset ($_SERVER['REQUEST_METHOD'])
 			? $_SERVER['REQUEST_METHOD']
 			: 'GET'
-		);
+        );
 
-		// Проверка на безопасное подключение https
-		if ((( ! empty($_SERVER['HTTPS'])) && (filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN)))
-			|| ((isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) && ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'))
-				&& (in_array($_SERVER['REMOTE_ADDR'], self::$trustedProxies)))
-			$request->Secure(true);
+		// Check HTTPS
+		if ( ! empty ($_SERVER['HTTPS']) && (filter_var ($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN))
+			|| isset ($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
+				&& in_array($_SERVER['REMOTE_ADDR'], self::$uTrustedProxies))
+			$uRequest->Secure (true);
 
-		// Получаем referrer
-		if (isset($_SERVER['HTTP_REFERER']))
-			$request->Referrer($_SERVER['HTTP_REFERER']);
+		// Referrer
+		if (isset ($_SERVER['HTTP_REFERER']))
+			$uRequest->Referrer ($_SERVER['HTTP_REFERER']);
 
-		// Получаем user agent
-		if (isset($_SERVER['HTTP_USER_AGENT']))
-			$request->UserAgent($_SERVER['HTTP_USER_AGENT']);
+		// User agent
+		if (isset ($_SERVER['HTTP_USER_AGENT']))
+			$uRequest->UserAgent ($_SERVER['HTTP_USER_AGENT']);
 
-		// Проверка на Ajax - запрос
-		if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-			$request->Ajax(true);
+		// Check ajax
+		if (isset ($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower ($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
+			$uRequest->Ajax (true);
 
-		// Получаем IP - адрес пользователя
-		if ((isset($_SERVER['HTTP_X_FORWARDED_FOR'])) && (isset($_SERVER['REMOTE_ADDR']))
-			&& (in_array($_SERVER['REMOTE_ADDR'], self::$trustedProxies)))
+		// Get IP
+		if (isset ($_SERVER['HTTP_X_FORWARDED_FOR']) && isset ($_SERVER['REMOTE_ADDR'])
+			&& in_array($_SERVER['REMOTE_ADDR'], self::$uTrustedProxies))
 			// Определяем реальный IP - адрес
-			$clientIp = array_shift(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+			$uClientIp = array_shift (explode (',', $_SERVER['HTTP_X_FORWARDED_FOR']));
 		elseif ((isset($_SERVER['HTTP_CLIENT_IP'])) && (isset($_SERVER['REMOTE_ADDR']))
 			&& (in_array($_SERVER['REMOTE_ADDR'], self::$uTrustedProxies)))
 			// Определяем реальный IP - адрес
-			$clientIp = array_shift(explode(',', $_SERVER['HTTP_CLIENT_IP']));
+			$uClientIp = array_shift (explode (',', $_SERVER['HTTP_CLIENT_IP']));
 		elseif (isset($_SERVER['REMOTE_ADDR']))
-			$clientIp = $_SERVER['REMOTE_ADDR'];
+			$uClientIp = $_SERVER['REMOTE_ADDR'];
 
-		if (isset ($clientIp))
-			$request->ClientIp($clientIp);
+		if (isset ($uClientIp))
+			$uRequest->ClientIp ($uClientIp);
 
-		if (isset($_GET['route']))
-			$request->ClientRoute($_GET['route']);
+		if ( ! empty ($_GET['uRoute']))
+			$uRequest->ClientRoute ($_GET['uRoute']);
 
-		return $request;
+		return $uRequest;
 	}
 
-	public static function Proccess(Request $request)
+	public static function Proccess (Request $uRequest)
 	{
-		$clientRoute = $request->ClientRoute();
+		$uClientRoute = $uRequest->ClientRoute();
 
-		$params 	  = [];
+		$uParams 	  = [];
 
-		foreach (Route::All() as $name => $route)
+		foreach (Route::All() as $uName => $uRoute)
 		{
-			$routeDefaults = $route->Defaults();
+			$uRouteDefaults = $uRoute->Defaults();
 
 			if (isset($routeDefaults['home']))
 			{
@@ -85,14 +85,14 @@ class Request
 				$params['errorParams'] = $routeDefaults;
 			}
 
-			if ($clientRoute == $name)
+			if ($uClientRoute == $uName)
 				$params['clientParams'] = $routeDefaults;
 
-			if (count($params) == 2)
+            if (count ($uParams) === 2)
 				break;
 		}
 
-		return $params;
+		return $uParams;
 	}
 
 	private $_controller;
@@ -127,9 +127,9 @@ class Request
 		if ( ! isset($params))
 			throw new Exception('Не удалось определить параметры маршрута..');
 
-		$this->Controller($params['controller']);
+		$this->Controller($params['Controller']);
 
-		$this->Action((isset($params['action']))
+		$this->Action((isset($params['Action']))
 			? $params['action']
 			: Route::$defaultAction
 		);
