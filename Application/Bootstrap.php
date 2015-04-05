@@ -29,7 +29,8 @@ Route::Set ('home')
 	->Defaults ([
 		'Controller' => 'Welcome'
 	])
-	->SetHome();
+	->SetHome()
+	->SetError();
 
 Route::Set ('test')
 	->Defaults ([
@@ -46,5 +47,4 @@ Route::Set ('test_2')
 Route::Set ('errorPage')
 	->Defaults ([
 		'Controller' => 'Error'
-	])
-	->SetError();
+	]);

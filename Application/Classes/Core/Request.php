@@ -71,28 +71,30 @@ class Request
 		{
 			$uRouteDefaults = $uRoute->Defaults();
 
-			if (isset ($uRouteDefaults['Home']))
+			if ($uClientRoute == $uName)
 			{
-				unset ($uRouteDefaults['Home']);
+				$uParams['uClient'] = $uRouteDefaults;
 
-				$uParams['uHomeParams'] = $uRouteDefaults;
+				break;
 			}
+
+			if (isset ($uRouteDefaults['Home']))
+				$uParams['uHome']  = $uRouteDefaults;
 
 			if (isset ($uRouteDefaults['Error']))
-			{
-				unset ($uRouteDefaults['Error']);
-
-				$uParams['uErrorParams'] = $uRouteDefaults;
-			}
-
-			if ($uClientRoute == $uName)
-				$uParams['uClientParams'] = $uRouteDefaults;
-
-            if (count ($uParams) === 2)
-				break;
+				$uParams['uError'] = $uRouteDefaults;
 		}
 
-		return $uParams;
+		if ( ! empty ($uParams['uClient']))
+			return $uParams['uClient'];
+
+		if ( ! empty ($uParams['uError']) &&  ! empty ($uClientRoute))
+			return $uParams['uError'];
+
+		if ( ! empty ($uParams['uHome']))
+			return $uParams['uHome'];
+
+		return;
 	}
 
 	private $_uController;
@@ -115,15 +117,9 @@ class Request
 
 	public function Execute()
 	{
-		$uProcessed = self::Proccess ($this);
+		$uParams = self::Proccess ($this);
 
-		if (isset ($uProcessed['uClientParams']))
-			$uParams = $uProcessed['uClientParams'];
-		elseif (isset ($uProcessed['uErrorParams']) && ! empty ($this->ClientRoute()))
-			$uParams = $uProcessed['uErrorParams'];
-		elseif (isset ($uProcessed['uHomeParams']))
-			$uParams = $uProcessed['uHomeParams'];
-		else
+		if (empty ($uParams))
 			throw new Exception ('Не удалось определить параметры маршрута..');
 
 		$this->Controller($uParams['Controller']);

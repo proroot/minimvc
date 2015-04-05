@@ -50,10 +50,14 @@ class Route
 	public function SetHome()
 	{
 		$this->_uDefaults['Home'] = true;
+
+		return $this;
 	}
 
 	public function SetError()
 	{
 		$this->_uDefaults['Error'] = true;
+
+		return $this;
 	}
 }
