@@ -6,58 +6,54 @@ use Core\Exception\Exception;
 
 class Route
 {
-	public static $defaultAction = 'Index';
+	public static $uDefaultAction = 'Index';
 
-	/**
-	 * @var array
-	 */
+	private static $_uRoutes 	  = [];
 
-	private static $_routes 	 = [];
-
-	public static function Set($name)
+	public static function Set ($uName)
 	{
-		if (isset(self::$_routes[$name]))
-			throw new Exception('Данный маршрут: :route существует', [
-				':route' => $name
+		if ( ! empty (self::$_uRoutes[$uName]))
+			throw new Exception('Данный маршрут: :uRoute существует', [
+				':uRoute' => $uName
 			]);
 
-		return self::$_routes[$name] = new self;
+		return self::$_uRoutes[$uName] = new self;
 	}
 
 	public static function All()
 	{
-		return self::$_routes;
+		return self::$_uRoutes;
 	}
 
-	public static function Get($name)
+	public static function Get ($uName)
 	{
-		if ( ! isset(self::$_routes[$name]))
-			throw new Exception('Не существует данный маршрут: :route', [
-				':route' => $name
+		if (empty (self::$_uRoutes[$uName]))
+			throw new Exception('Не существует данный маршрут: :uRoute', [
+				':uRoute' => $uName
 			]);
 
-		return self::$_routes[$name];
+		return self::$_uRoutes[$uName];
 	}
 
-	private $_defaults = [];
+	private $_uDefaults = [];
 
-	public function Defaults(array $defaults = null)
+	public function Defaults (array $uDefaults = [])
 	{
-		if ($defaults === null)
-			return $this->_defaults;
+		if (empty ($uDefaults))
+			return $this->_uDefaults;
 
-		$this->_defaults = $defaults;
+		$this->_uDefaults = $uDefaults;
 
 		return $this;
 	}
 
-	public function Home ()
+	public function SetHome()
 	{
-		$this->_defaults['home'] = true;
+		$this->_uDefaults['Home'] = true;
 	}
 
-	public function Error ()
+	public function SetError()
 	{
-		$this->_defaults['error'] = true;
+		$this->_uDefaults['Error'] = true;
 	}
 }

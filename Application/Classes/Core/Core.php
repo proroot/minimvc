@@ -8,37 +8,37 @@ class Core
 	 * @var Content type
 	 */
 
-	public static $contentType = 'text/html';
+	public static $uContentType = 'text/html';
 
 	/**
 	 * @var Charset
 	 */
 
-	public static $charset     = 'utf-8';
+	public static $uCharset     = 'utf-8';
 
 	/**
 	 * @var Config
 	 */
 
-	public static $config;
+	public static $uConfig;
 
 	/**
 	 * @return  void
 	 */
 
-	public static function Init(array $settings = [])
+	public static function Init (array $uSettings = [])
 	{
 		ob_start();
 
-		if (isset($setting['charset']))
+		if ( ! empty ($uSetting['uCharset']))
 			// Set the charset
-			self::$charset = strtolower($settings['charset']);
+			self::$uCharset = strtolower ($uSettings['uCharset']);
 
 		// Сканируем все переменные запроса
-		$_GET    = self::Sanitize($_GET);
-		$_POST   = self::Sanitize($_POST);
-		$_COOKIE = self::Sanitize($_COOKIE);
-		$_SERVER = self::Sanitize($_SERVER);
+		$_GET    = self::Sanitize ($_GET);
+		$_POST   = self::Sanitize ($_POST);
+		$_COOKIE = self::Sanitize ($_COOKIE);
+		$_SERVER = self::Sanitize ($_SERVER);
 	}
 
 	/**
@@ -48,15 +48,21 @@ class Core
 	 * @return array
 	 */
 
-	public static function Sanitize($value)
+	public static function Sanitize ($uValue)
 	{
-		if ((is_array($value)) || (is_object($value)))
-			foreach ($value as $key => $val)
-				$value[$key] = self::Sanitize($val);
-		elseif (is_string($value))
-			$value = trim(strip_tags(htmlentities($value, ENT_QUOTES)));
+		if (is_array ($uValue) || is_object ($uValue))
+		{
+			foreach ($uValue as $uKey => $uVal)
+				$uValue[$uKey] = self::Sanitize ($uVal);
+		}
+		elseif (is_string ($uValue))
+			$uValue = trim (
+				strip_tags (
+					htmlentities ($uValue, ENT_QUOTES)
+				)
+			);
 
-		return $value;
+		return $uValue;
 	}
 
 	/**
@@ -64,25 +70,25 @@ class Core
 	 * @return boolen
 	 */
 
-	public static function AutoLoad($class)
+	public static function AutoLoad ($uClass)
 	{
-		$class     = ltrim($class, '\\');
-		$pathClass = APPPATH . 'Classes' . DS;
-		$namespace = '';
+		$uClass     = ltrim ($uClass, '\\');
+		$uPathClass = APPPATH . 'Classes' . DS;
+		$uNamespace = '';
 
-		if ($lastNamespacePosition = strripos($class, '\\'))
+		if ($uLastNamespacePosition = strripos ($uClass, '\\'))
 		{
-			$namespace  = substr($class, 0, $lastNamespacePosition);
-			$class      = substr($class, $lastNamespacePosition + 1);
-			$pathClass  .= str_replace('\\', DS, $namespace) . DS;
+			$uNamespace  = substr ($uClass, 0, $uLastNamespacePosition);
+			$uClass      = substr ($uClass, $uLastNamespacePosition + 1);
+			$uPathClass .= str_replace ('\\', DS, $uNamespace) . DS;
 		}
 
-		$pathClass .=  str_replace('_', DS, $class) . '.php';
+		$uPathClass .=  str_replace ('_', DS, $uClass) . '.php';
 
-		if (is_readable($pathClass))
-			return self::Load($pathClass);
+		if (is_readable ($uPathClass))
+			return self::Load ($uPathClass);
 
-		return false;
+		return;
 	}
 
 	/**
@@ -90,8 +96,8 @@ class Core
 	 * @return boolen
 	 */
 
-	public static function Load($file)
+	public static function Load ($uFile)
 	{
-		return require_once ($file);
+		return require_once $uFile;
 	}
 }

@@ -4,7 +4,7 @@
  * Load the core class
  */
 
-require_once (APPPATH . 'Classes/Core/Core.php');
+require_once APPPATH . 'Classes/Core/Core.php';
 
 use Core\Core;
 use Core\Route;
@@ -25,26 +25,26 @@ set_exception_handler([
 
 Core::Init();
 
-Route::Set('home')
-	->Defaults([
+Route::Set ('home')
+	->Defaults ([
 		'Controller' => 'Welcome'
 	])
-	->Home();
+	->SetHome();
 
-Route::Set('test')
-	->Defaults([
+Route::Set ('test')
+	->Defaults ([
 		'Controller' => 'Welcome',
 		'Action'     => 'Index'
 	]);
 
-Route::Set('test_2')
-	->Defaults([
+Route::Set ('test_2')
+	->Defaults ([
 		'Controller' => 'Test',
 		'Action'     => 'Index'
 	]);
 
-Route::Set('errorPage')
-	->Defaults([
+Route::Set ('errorPage')
+	->Defaults ([
 		'Controller' => 'Error'
 	])
-	->Error();
+	->SetError();

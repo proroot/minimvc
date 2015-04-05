@@ -71,22 +71,22 @@ class Request
 		{
 			$uRouteDefaults = $uRoute->Defaults();
 
-			if (isset($routeDefaults['home']))
+			if (isset ($uRouteDefaults['Home']))
 			{
-				unset($routeDefaults['home']);
+				unset ($uRouteDefaults['Home']);
 
-				$params['homeParams'] = $routeDefaults;
+				$uParams['uHomeParams'] = $uRouteDefaults;
 			}
 
-			if (isset($routeDefaults['error']))
+			if (isset ($uRouteDefaults['Error']))
 			{
-				unset($routeDefaults['error']);
+				unset ($uRouteDefaults['Error']);
 
-				$params['errorParams'] = $routeDefaults;
+				$uParams['uErrorParams'] = $uRouteDefaults;
 			}
 
 			if ($uClientRoute == $uName)
-				$params['clientParams'] = $routeDefaults;
+				$uParams['uClientParams'] = $uRouteDefaults;
 
             if (count ($uParams) === 2)
 				break;
@@ -95,143 +95,143 @@ class Request
 		return $uParams;
 	}
 
-	private $_controller;
+	private $_uController;
 
-	private $_action;
+	private $_uAction;
 
-	private $_clientRoute = '';
+	private $_uClientRoute = '';
 
-	private $_method      = 'GET';
+	private $_uMethod      = 'GET';
 
-	private $_userAgent   = '';
+	private $_uUserAgent   = '';
 
-	private $_clientIp    = '0.0.0.0';
+	private $_uClientIp    = '0.0.0.0';
 
-	private $_secure      = false;
+	private $_uSecure      = false;
 
-	private $_referrer    = '';
+	private $_uReferrer    = '';
 
-	private $_ajax        = false;
+	private $_uAjax        = false;
 
 	public function Execute()
 	{
-		$processed = self::Proccess($this);
+		$uProcessed = self::Proccess ($this);
 
-		if (isset($processed['clientParams']))
-			$params = $processed['clientParams'];
-		elseif ((isset($processed['errorParams'])) && ( ! empty($this->ClientRoute())))
-			$params = $processed['errorParams'];
-		elseif (isset($processed['homeParams']))
-			$params = $processed['homeParams'];
+		if (isset ($uProcessed['uClientParams']))
+			$uParams = $uProcessed['uClientParams'];
+		elseif (isset ($uProcessed['uErrorParams']) && ! empty ($this->ClientRoute()))
+			$uParams = $uProcessed['uErrorParams'];
+		elseif (isset ($uProcessed['uHomeParams']))
+			$uParams = $uProcessed['uHomeParams'];
+		else
+			throw new Exception ('Не удалось определить параметры маршрута..');
 
-		if ( ! isset($params))
-			throw new Exception('Не удалось определить параметры маршрута..');
+		$this->Controller($uParams['Controller']);
 
-		$this->Controller($params['Controller']);
-
-		$this->Action((isset($params['Action']))
-			? $params['action']
-			: Route::$defaultAction
+		$this->Action (( ! empty ($uParams['Action']))
+			? $uParams['Action']
+			: Route::$uDefaultAction
 		);
 
-		$nameController = 'Controller_' . $this->Controller();
+		$uNameController = 'Controller_' . $this->Controller();
 
-		if ( ! class_exists($nameController))
-			throw new Exception('Не существует класс контроллера: :controller', [
-				':controller' => $nameController
+		if ( ! class_exists ($uNameController))
+			throw new Exception ('Не существует класс контроллера: :uController', [
+				':uController' => $uNameController
 			]);
 
-		return new $nameController($this);
+		return new $uNameController ($this);
 	}
 
-	public function ClientRoute($clientRoute = null)
+	public function ClientRoute ($uClientRoute = null)
 	{
-		if ($clientRoute === null)
-			return $this->_clientRoute;
+		if ($uClientRoute === null)
+			return $this->_uClientRoute;
 
-		$this->_clientRoute = (! empty($clientRoute))
-			? strtolower($clientRoute)
-			: '';
+		$this->_uClientRoute = ( ! empty ($uClientRoute))
+			? strtolower ($uClientRoute)
+			: ''
+		;
 
 		return $this;
 	}
 
-	public function Secure($secure = null)
+	public function Secure ($uSecure = null)
 	{
-		if ($secure === null)
-			return $this->_secure;
+		if ($uSecure === null)
+			return $this->_uSecure;
 
-		$this->_secure = (bool) $secure;
+		$this->_uSecure = (bool) $uSecure;
 
 		return $this;
 	}
 
-	public function Controller($controller = null)
+	public function Controller ($uController = null)
 	{
-		if ($controller === null)
-			return $this->_controller;
+		if ($uController === null)
+			return $this->_uController;
 
-		$this->_controller = (string) $controller;
+		$this->_uController = (string) $uController;
 
 		return $this;
 	}
 
-	public function Action($action = null)
+	public function Action ($uAction = null)
 	{
-		if ($action === null)
-			return $this->_action;
+		if ($uAction === null)
+			return $this->_uAction;
 
-		$this->_action = (string) $action;
+		$this->_uAction = (string) $uAction;
 
 		return $this;
 	}
 
-	public function Method($method = null)
+	public function Method ($uMethod = null)
 	{
-		if ($method === null)
-			return $this->_method;
+		if ($uMethod === null)
+			return $this->_uMethod;
 
-		$this->_method = strtoupper($method);
+		$this->_uMethod = strtoupper ($uMethod);
 
 		return $this;
 	}
 
-	public function ClientIp($clientIp = null)
+	public function ClientIp ($uClientIp = null)
 	{
-		if ($clientIp === null)
-			return $this->_clientIp;
+		if ($uClientIp === null)
+			return $this->_uClientIp;
 
-		$this->_clientIp = (string) $clientIp;
+		$this->_uClientIp = (string) $uClientIp;
 
 		return $this;
 	}
 
-	public function UserAgent($userAgent = null)
+	public function UserAgent ($uUserAgent = null)
 	{
-		if ($userAgent === null)
-			return $this->_userAgent;
+		if ($uUserAgent === null)
+			return $this->_uUserAgent;
 
-		$this->_userAgent = (string) $userAgent;
+		$this->_uUserAgent = (string) $uUserAgent;
 
 		return $this;
 	}
 
-	public function Referrer($referrer = null)
+	public function Referrer ($uReferrer = null)
 	{
-		if ($referrer === null)
-			return $this->_referrer;
+		if ($uReferrer === null)
+			return $this->_uReferrer;
 
-		$this->_referrer = (string) $referrer;
+		$this->_uReferrer = (string) $uReferrer;
 
 		return $this;
 	}
 
-	public function Ajax($ajax = null)
+	public function Ajax ($uAjax = null)
 	{
-		if ($ajax === null)
-			return $this->_ajax;
+		if ($uAjax === null)
+			return $this->_uAjax;
 
-		$this->_ajax = (bool) $ajax;
+		$this->_uAjax = (bool) $uAjax;
 
 		return $this;
 	}
