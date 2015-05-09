@@ -1,6 +1,4 @@
-<?php
-
-namespace Core;
+<?php namespace Core;
 
 use Core\Exception\Exception;
 
@@ -10,9 +8,9 @@ class Route
 
 	private static $_uRoutes 	  = [];
 
-	public static function Set ($uName)
+	public static function set($uName)
 	{
-		if ( ! empty (self::$_uRoutes[$uName]))
+		if ( ! empty(self::$_uRoutes[$uName]))
 			throw new Exception('Данный маршрут: :uRoute существует', [
 				':uRoute' => $uName
 			]);
@@ -20,14 +18,14 @@ class Route
 		return self::$_uRoutes[$uName] = new self;
 	}
 
-	public static function All()
+	public static function all()
 	{
 		return self::$_uRoutes;
 	}
 
-	public static function Get ($uName)
+	public static function get($uName)
 	{
-		if (empty (self::$_uRoutes[$uName]))
+		if (empty(self::$_uRoutes[$uName]))
 			throw new Exception('Не существует данный маршрут: :uRoute', [
 				':uRoute' => $uName
 			]);
@@ -37,9 +35,9 @@ class Route
 
 	private $_uDefaults = [];
 
-	public function Defaults (array $uDefaults = [])
+	public function defaults(array $uDefaults = [])
 	{
-		if (empty ($uDefaults))
+		if (empty($uDefaults))
 			return $this->_uDefaults;
 
 		$this->_uDefaults = $uDefaults;
@@ -47,14 +45,14 @@ class Route
 		return $this;
 	}
 
-	public function SetHome()
+	public function setHome()
 	{
 		$this->_uDefaults['Home'] = true;
 
 		return $this;
 	}
 
-	public function SetError()
+	public function setError()
 	{
 		$this->_uDefaults['Error'] = true;
 

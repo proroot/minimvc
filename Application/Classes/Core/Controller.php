@@ -1,25 +1,23 @@
-<?php
-
-namespace Core;
+<?php namespace Core;
 
 use Core\Exception\Exception;
 
 abstract class Controller
 {
-	public $uRequest;
+	protected $uRequest;
 
-	public $uResponse;
+	protected $uResponse = '';
 
-	public function __construct (Request $uRequest)
+	public function __construct(Request $uRequest)
 	{
 		$this->uRequest = $uRequest;
 
-		$uAction = 'Action' . $this->uRequest->Action();
+		$uAction = 'Action' . $this->uRequest->action();
 
-		if ( ! method_exists ($this, $uAction))
-			throw new Exception ('Не существует метод: :uMethod у контроллера: :uController', [
+		if ( ! method_exists($this, $uAction))
+			throw new Exception('Не существует метод: :uMethod у контроллера: :uController', [
 				':uMethod'     => $uAction,
-				':uController' => $this->uRequest->Controller()
+				':uController' => $this->uRequest->controller()
 			]);
 
 		$this->{$uAction}();
@@ -27,6 +25,6 @@ abstract class Controller
 
 	public function __toString()
 	{
-		return $this->uResponse;
+		return (string) $this->uResponse;
 	}
 }

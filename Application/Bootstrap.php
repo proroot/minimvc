@@ -23,28 +23,28 @@ set_exception_handler([
 	'Handler'
 ]);
 
-Core::Init();
+Core::init();
 
-Route::Set ('home')
-	->Defaults ([
+Route::set('home')
+	->defaults([
 		'Controller' => 'Welcome'
 	])
-	->SetHome()
-	->SetError();
+	->setHome()
+	->setError();
 
-Route::Set ('test')
-	->Defaults ([
+Route::set('test')
+	->defaults([
 		'Controller' => 'Welcome',
 		'Action'     => 'Index'
 	]);
 
-Route::Set ('test_2')
-	->Defaults ([
+Route::set('test_2')
+	->defaults([
 		'Controller' => 'Test',
 		'Action'     => 'Index'
 	]);
 
-Route::Set ('errorPage')
-	->Defaults ([
+Route::set('errorPage')
+	->defaults([
 		'Controller' => 'Error'
 	]);
