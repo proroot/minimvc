@@ -12,6 +12,11 @@ abstract class Controller
 	{
 		$this->uRequest = $uRequest;
 
+		$this->execute();
+	}
+
+	public function execute()
+	{
 		$uAction = 'Action' . $this->uRequest->action();
 
 		if ( ! method_exists($this, $uAction))
@@ -20,7 +25,23 @@ abstract class Controller
 				':uController' => $this->uRequest->controller()
 			]);
 
-		$this->{$uAction}();
+		$this->before();
+
+		$this->$uAction();
+
+		$this->after();
+
+		return $this->__toString();
+	}
+
+	public function before()
+	{
+
+	}
+
+	public function after()
+	{
+
 	}
 
 	public function __toString()

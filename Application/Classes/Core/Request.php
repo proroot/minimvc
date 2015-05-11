@@ -11,14 +11,13 @@ class Request
 		'localhost.localdomain'
 	];
 
-	public static function factory()
+	public static function init()
 	{
 		$uRequest = new self;
 
-		$uRequest->Method ( ! empty($_SERVER['REQUEST_METHOD'])
+		$uRequest->Method ( ! empty($_SERVER['REQUEST_METHOD']))
 			? $_SERVER['REQUEST_METHOD']
-			: 'GET'
-        );
+			: 'GET';
 
 		// Check HTTPS
 		if ( ! empty($_SERVER['HTTPS']) && (filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN))
@@ -153,8 +152,7 @@ class Request
 
 		$this->_uClientRoute = ( ! empty($uClientRoute))
 			? strtolower($uClientRoute)
-			: ''
-		;
+			: '';
 
 		return $this;
 	}

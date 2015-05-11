@@ -37,7 +37,7 @@ class View
         if ($this->uFile === null)
             throw new Exception('Не удалось определить вид');
 
-        $uPathFile = APPPATH . 'View' . DS . str_replace('.', DS, $this->uFile) . $this->getEXT();
+        $uPathFile = APPPATH . 'Views' . DS . str_replace('.', DS, $this->uFile) . $this->getEXT();
 
         if ( ! is_readable($uPathFile))
             throw new Exception('Не существует вид: :uFile, полный путь: :uPathFile', [

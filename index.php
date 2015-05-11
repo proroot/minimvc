@@ -65,7 +65,8 @@ else
  * Bootstrap the application
  */
 
+require_once APPPATH . 'Functions.php';
 require_once APPPATH . 'Bootstrap.php';
 
-echo Core\Request::Factory()
+echo Core\Request::init()
 	->Execute();
