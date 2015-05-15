@@ -52,5 +52,7 @@ function dTrace()
         ? $uBt[2]['function']
         : '';
 
-    return sprintf('%s%s%s() строка %s <small>(в %s)</small>', $uClass, $uType, $uFunction, $uLine, $uFile);
+    return sprintf('%s%s%s() строка %s <small>(в %s)</small>',
+        $uClass, $uType, $uFunction, $uLine, $uFile
+    );
 }

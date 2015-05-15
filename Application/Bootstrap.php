@@ -25,26 +25,13 @@ set_exception_handler([
 
 Core::init();
 
-Route::set('home')
-	->defaults([
-		'Controller' => 'Welcome'
-	])
-	->setHome()
-	->setError();
+Route::set('POST|GET', '', 'Welcome@Test2')->aHome();
 
-Route::set('test')
-	->defaults([
-		'Controller' => 'Welcome',
-		'Action'     => 'Index'
-	]);
+Route::group(function()
+{
+	Route::set('GET', 'test', 'Welcome');
 
-Route::set('test_2')
-	->defaults([
-		'Controller' => 'Test',
-		'Action'     => 'Index'
-	]);
+	Route::set('GET', 'test2', 'Welcome');
+});
 
-Route::set('errorPage')
-	->defaults([
-		'Controller' => 'Error'
-	]);
+Route::set('GET', 'errorPage', 'Error');

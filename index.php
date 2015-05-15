@@ -62,10 +62,15 @@ else
 	error_reporting(0);
 
 /**
- * Bootstrap the application
+ * Functions
  */
 
 require_once APPPATH . 'Functions.php';
+
+/**
+ * Bootstrap the application
+ */
+
 require_once APPPATH . 'Bootstrap.php';
 
 echo Core\Request::init()

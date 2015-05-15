@@ -27,11 +27,11 @@ class Controller_Welcome extends Core\Controller
         //     ->get('https://proroot.net')
         //     ->getResponse();
     
-        $uWelcome = Model::init('Test.Welcome');
+        // $uWelcome = Model::init('Test.Welcome');
 
 
     
-        $this->uResponse .= $uWelcome->test();
+        $this->uResponse = 'ss';
 
         // $uData = [
         //     1 => 'ddd',
@@ -48,8 +48,22 @@ class Controller_Welcome extends Core\Controller
         // dd($uData, 'ddd');
     }
 
-    public function before()
+    public function actionTest()
     {
-        $this->uResponse = 'dd';
+        dd(file_get_contents('php://input'));
+
+// The result
+        print_r($_GET);
+        $this->uResponse = 'actionTest';
     }
+
+    public function actionTest2()
+    {
+        $this->uResponse = 'actionTest2';
+    }
+
+    // public function before()
+    // {
+    //     $this->uResponse = 'dd';
+    // }
 }

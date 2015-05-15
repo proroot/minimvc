@@ -15,9 +15,10 @@ class Request
 	{
 		$uRequest = new self;
 
-		$uRequest->Method ( ! empty($_SERVER['REQUEST_METHOD']))
+		$uRequest->method(( ! empty($_SERVER['REQUEST_METHOD']))
 			? $_SERVER['REQUEST_METHOD']
-			: 'GET';
+			: 'GET'
+		);
 
 		// Check HTTPS
 		if ( ! empty($_SERVER['HTTPS']) && (filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN))
@@ -76,7 +77,13 @@ class Request
 
 		foreach (Route::All() as $uName => $uRoute)
 		{
-			$uRouteDefaults = $uRoute->defaults();
+			$uRouteDefaults = $uRoute->getDefaults();
+
+			if ( ! empty($uRouteDefaults['RM']) &&
+				$uRouteDefaults['RM'][0] !== 'ANY' &&
+				! in_array($uRequest->method(), $uRouteDefaults['RM'])
+			)
+				continue;
 
 			if ($uClientRoute === $uName)
 			{
