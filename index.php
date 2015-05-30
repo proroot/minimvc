@@ -46,7 +46,7 @@ define('DOCROOT', __DIR__ . DS);
  * The full path to the application -> Application
  */
 
-define('APPPATH', realpath(DOCROOT . 'Application') . DS);
+define('APPPATH', realpath(DOCROOT . 'App') . DS);
 
 /**
  * Error output
@@ -73,5 +73,11 @@ require_once APPPATH . 'Functions.php';
 
 require_once APPPATH . 'Bootstrap.php';
 
+/**
+ * Routes
+ */
+
+require_once APPPATH . 'Routes.php';
+
 echo Core\Request::init()
-	->Execute();
+	->execute();
