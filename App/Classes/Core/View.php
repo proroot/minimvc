@@ -1,6 +1,7 @@
 <?php namespace Core;
 
 use Core\Exception\Exception;
+use Module\Twig\Twig;
 
 class View
 {
@@ -23,8 +24,6 @@ class View
 
         if ($uEXT !== null)
             $this->_uEXT = $uEXT;
-
-        return $this->render();
     }
 
     public function __toString()
@@ -37,33 +36,26 @@ class View
         if ($this->uFile === null)
             throw new Exception('Не удалось определить вид');
 
-        $uPathFile = APPPATH . 'Views' . DS . str_replace('.', DS, $this->uFile) . $this->getEXT();
+        $uPathFile = APPPATH . 'Views' . DS;
 
-        if ( ! is_readable($uPathFile))
+        $uFileName = str_replace('.', DS, $this->uFile) . $this->getEXT();
+
+        $uFullPathFile = $uPathFile . $uFileName;
+
+        if ( ! is_readable($uFullPathFile))
             throw new Exception('Не существует вид: :uFile, полный путь: :uPathFile', [
                 ':uFile'     => $this->uFile,
-                ':uPathFile' => $uPathFile
+                ':uFullPathFile' => $uFullPathFile
             ]);
-
-        extract($this->uData, EXTR_SKIP);
-
-        if ( ! empty(self::$_uGData))
-            extract(self::$_uGData, EXTR_SKIP | EXTR_REFS);
-
-        ob_start();
 
         try
         {
-            require $uPathFile;
+            return new Twig($uPathFile, $uFileName, array_merge($this->uData, self::$_uGData));
         }
         catch (Exception $uE)
         {
-            ob_end_clean();
-
             throw $uE;
         }
-
-        return ob_get_clean();
     }
 
     public function getEXT()

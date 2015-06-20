@@ -1,4 +1,4 @@
-<?php namespace Modules\Curl;
+<?php namespace Module\Curl;
 
 class Curl
 {

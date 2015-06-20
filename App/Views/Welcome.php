@@ -5,6 +5,12 @@
     <title>Document</title>
 </head>
 <body>
-    <?= $uTest; ?>
+    {% if uData %}
+        {%  for uItem in uData if uItem % 2 == 0 %}
+            {{  uItem|e }} = 
+        {% endfor %}
+    {% endif %}
 </body>
 </html>
+
+

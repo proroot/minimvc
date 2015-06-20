@@ -55,8 +55,26 @@ class Controller_Welcome extends Core\Controller
         //dd(file_get_contents('php://input'));
 
 // The result
-        print_r($_GET);
-        $this->uResponse = 'actionTest';
+        // print_r($_GET);
+        // $this->uResponse = 'actionTest';
+
+        // Twig_Autoloader::register(true);
+
+        // $loader = new Twig_Loader_Filesystem(APPPATH . 'Views' . DS);
+
+        // $twig = new Twig_Environment($loader, array(
+        //     'cache'       => 'compilation_cache',
+        //     'auto_reload' => true
+        // ));
+
+        // echo $twig->render('Welcome.php', array('list' => array(1,2,3,4,5)));
+
+        $this->uResponse = View::init('Welcome', [
+            'uData' => [
+                1, 2, 3, 4, 5
+            ]
+        ]);
+
     }
 
     public function actionTest2()
