@@ -23,17 +23,17 @@ class Controller_Welcome extends Core\Controller
     
         //$this->uResponse = View::init('test.test', ['uTest' => 'dd'], '.txt');
     
-        //$uCurl = new Curl();
+        $uCurl = new Curl();
     
-        // $this->uResponse = $uCurl
-        //     ->get('https://proroot.net')
-        //     ->getResponse();
+        $this->uResponse = $uCurl
+            ->get('https://play.google.com/store/apps')
+            ->getResponse();
     
         // $uWelcome = Model::init('Test.Welcome');
 
 
     
-        $this->uResponse = 'ss';
+        // $this->uResponse = 'ss';
 
         // $uData = [
         //     1 => 'ddd',
@@ -70,9 +70,7 @@ class Controller_Welcome extends Core\Controller
         // echo $twig->render('Welcome.php', array('list' => array(1,2,3,4,5)));
 
         $this->uResponse = View::init('Welcome', [
-            'uData' => [
-                1, 2, 3, 4, 5
-            ]
+            'uData' => '<span>Test</span>Test'
         ]);
 
     }

@@ -24,6 +24,8 @@ class View
 
         if ($uEXT !== null)
             $this->_uEXT = $uEXT;
+
+        $this->render();
     }
 
     public function __toString()
@@ -48,14 +50,8 @@ class View
                 ':uFullPathFile' => $uFullPathFile
             ]);
 
-        try
-        {
-            return new Twig($uPathFile, $uFileName, array_merge($this->uData, self::$_uGData));
-        }
-        catch (Exception $uE)
-        {
-            throw $uE;
-        }
+
+        return new Twig($uPathFile, $uFileName, array_merge($this->uData, self::$_uGData));
     }
 
     public function getEXT()

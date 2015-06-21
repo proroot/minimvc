@@ -13,7 +13,7 @@ class Twig
         $uLoader = new \Twig_Loader_Filesystem($uTemplate);
 
         $uTwig   = new \Twig_Environment($uLoader, array(
-            'cache'       => APPPATH . 'Views' . DS . 'Twig_Compilation_Cache' . DS,
+            'cache'       => APPPATH . 'Cache' . DS . 'Twig_Compilation_Cache' . DS,
             'auto_reload' => true
         ));
 
