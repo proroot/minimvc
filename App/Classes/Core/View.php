@@ -50,7 +50,6 @@ class View
                 ':uFullPathFile' => $uFullPathFile
             ]);
 
-
         return new Twig($uPathFile, $uFileName, array_merge($this->uData, self::$_uGData));
     }
 

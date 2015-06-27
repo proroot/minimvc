@@ -30,8 +30,6 @@ abstract class Controller
 		$this->$uAction();
 
 		$this->after();
-
-		return $this->__toString();
 	}
 
 	public function before()

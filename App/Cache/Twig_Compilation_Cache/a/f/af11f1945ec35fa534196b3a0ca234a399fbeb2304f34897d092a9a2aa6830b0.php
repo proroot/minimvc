@@ -16,12 +16,7 @@ class __TwigTemplate_af11f1945ec35fa534196b3a0ca234a399fbeb2304f34897d092a9a2aa6
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        $context["test"] = "test";
-        // line 2
-        echo "
-";
-        // line 3
-        echo twig_escape_filter($this->env, (("test" . (isset($context["test"]) ? $context["test"] : null)) . "tyes"), "html", null, true);
+        echo twig_source($this->env, "Welcome.php");
     }
 
     public function getTemplateName()
@@ -36,6 +31,6 @@ class __TwigTemplate_af11f1945ec35fa534196b3a0ca234a399fbeb2304f34897d092a9a2aa6
 
     public function getDebugInfo()
     {
-        return array (  24 => 3,  21 => 2,  19 => 1,);
+        return array (  19 => 1,);
     }
 }

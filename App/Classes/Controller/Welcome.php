@@ -23,11 +23,12 @@ class Controller_Welcome extends Core\Controller
     
         //$this->uResponse = View::init('test.test', ['uTest' => 'dd'], '.txt');
     
-        $uCurl = new Curl();
+        // $uCurl = new Curl();
     
-        $this->uResponse = $uCurl
-            ->get('https://play.google.com/store/apps')
-            ->getResponse();
+        // $this->uResponse = $uCurl
+        //     ->get('https://play.google.com/store/apps')
+        //     ->getResponse();
+
     
         // $uWelcome = Model::init('Test.Welcome');
 
@@ -68,11 +69,8 @@ class Controller_Welcome extends Core\Controller
         // ));
 
         // echo $twig->render('Welcome.php', array('list' => array(1,2,3,4,5)));
-
-        $this->uResponse = View::init('Welcome', [
-            'uData' => '<span>Test</span>Test'
-        ]);
-
+        //header('Location: https://vk.com');
+        $this->uResponse = View::init('Welcome', ['test' => 5]);
     }
 
     public function actionTest2()
@@ -84,4 +82,5 @@ class Controller_Welcome extends Core\Controller
     // {
     //     $this->uResponse = 'dd';
     // }
+
 }
