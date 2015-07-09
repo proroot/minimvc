@@ -78,7 +78,9 @@ class Curl
     public function setHeader(array $uHeaders)
     {
         foreach ($uHeaders as $uKey => $uValue)
+        {
             $this->uHeaders[$uKey] = $uValue;
+        }
 
         $this->setOption([
             CURLOPT_HTTPHEADER => array_map(function ($uValue, $uKey)
@@ -92,8 +94,10 @@ class Curl
 
     public function setCookie(array $uCookies)
     {
-        foreach ($uCookies as $uKey => $uValue)    
+        foreach ($uCookies as $uKey => $uValue)
+        {
             $this->uCookies[$uKey] = $uValue;
+        }    
 
         $this->setOption([
             CURLOPT_COOKIE => str_replace(
@@ -165,16 +169,18 @@ class Curl
     public function setOption(array $uOptions)
     {
         foreach ($uOptions as $uKey => $uValue)
+        {
             curl_setopt($this->uCurl, $uKey, $uValue);
+        }
 
         return $this;
     }
 
     private function buildURL($uUrl, array $uData = [])
     {
-        return $uUrl . (empty ($uData)
-            ? ''
-            : '?' . http_build_query($uData)
+        return $uUrl . ( ! empty ($uData)
+            ? '?' . http_build_query($uData)
+            : ''
         );
     }
 
@@ -186,6 +192,9 @@ class Curl
     public function close()
     {
         if (is_resource($this->uCurl))
+        {
             curl_close($this->uCurl);
+        }
     }
+    
 }

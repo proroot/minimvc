@@ -8,22 +8,19 @@ class View
     public static $_uGData    = [];
     public static $_uGDataEXT = null;
 
-    public static function init($uFile = null, array $uData = [], $uEXT = null)
-    {
-        return new self($uFile, $uData, $uEXT);
-    }
-
     private $_uFile = '';
     private $_uEXT  = EXT;
     private $_uData = [];
 
-    public function __construct($uFile = null, array $uData = [], $uEXT = null)
+    public function __construct($uFile, array $uData = [], $uEXT = null)
     {
         $this->uFile = $uFile;
         $this->uData = $uData;
 
         if ($uEXT !== null)
+        {
             $this->_uEXT = $uEXT;
+        }
 
         $this->render();
     }
@@ -36,7 +33,9 @@ class View
     public function render()
     {
         if ($this->uFile === null)
+        {
             throw new Exception('Не удалось определить вид');
+        }
 
         $uPathFile = APPPATH . 'Views' . DS;
 
@@ -45,10 +44,12 @@ class View
         $uFullPathFile = $uPathFile . $uFileName;
 
         if ( ! is_readable($uFullPathFile))
+        {
             throw new Exception('Не существует вид: :uFile, полный путь: :uPathFile', [
                 ':uFile'     => $this->uFile,
                 ':uFullPathFile' => $uFullPathFile
             ]);
+        }
 
         return new Twig($uPathFile, $uFileName, array_merge($this->uData, self::$_uGData));
     }
@@ -57,4 +58,5 @@ class View
     {
         return ( ! empty(self::$_uGDataEXT)) ? self::$_uGDataEXT : $this->_uEXT;
     }
+    
 }

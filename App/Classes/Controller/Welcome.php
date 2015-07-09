@@ -7,9 +7,9 @@ use Module\Curl\Curl;
 
 class Controller_Welcome extends Core\Controller
 {
-    use Traits\Login;
+    // use Traits\Login;
 
-    public function actionIndex()
+    public function index()
     {
 		//$this->uResponse = $this->uRequest->userAgent();
 
@@ -51,7 +51,7 @@ class Controller_Welcome extends Core\Controller
         // dd($uData, 'ddd');
     }
 
-    public function actionTest()
+    public function test()
     {
         //dd(file_get_contents('php://input'));
 
@@ -70,17 +70,15 @@ class Controller_Welcome extends Core\Controller
 
         // echo $twig->render('Welcome.php', array('list' => array(1,2,3,4,5)));
         //header('Location: https://vk.com');
-        $this->uResponse = View::init('Welcome', ['test' => 5]);
+
+        //dd(file_get_contents('php://input'));
+
+        return view('Welcome', ['test' => $this->uRequest->userAgent()]);
     }
 
-    public function actionTest2()
+    public function test2()
     {
-        $this->uResponse = 'actionTest2';
+       return 'test2';
     }
-
-    // public function before()
-    // {
-    //     $this->uResponse = 'dd';
-    // }
 
 }

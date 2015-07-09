@@ -8,4 +8,5 @@ class Model_Test_Welcome extends Core\Model
 	{
 		return 'Hello';
 	}
+    
 }

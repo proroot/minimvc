@@ -19,4 +19,5 @@ class Exception extends \Exception
                 strip_tags($uE->getMessage()), $uE->getFile(), $uE->getLine()
             );
 	}
+    
 }

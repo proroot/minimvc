@@ -23,9 +23,10 @@ class Core
 		ob_start();
 
 		if ( ! empty($uSetting['uCharset']))
+		{
 			self::$uCharset = strtolower($uSettings['uCharset']);
+		}
 
-		// Сканируем все переменные запроса
 		$_GET    = self::sanitize($_GET);
 		$_POST   = self::sanitize($_POST);
 		$_COOKIE = self::sanitize($_COOKIE);
@@ -33,8 +34,6 @@ class Core
 	}
 
 	/**
-	 * Защита от XSS - атак
-	 *
 	 * @param  string $uValue
 	 * @return array
 	 */
@@ -44,14 +43,14 @@ class Core
 		if (is_array($uValue) || is_object($uValue))
 		{
 			foreach ($uValue as $uKey => $uVal)
+			{
 				$uValue[$uKey] = self::sanitize($uVal);
+			}
 		}
 		elseif (is_string($uValue))
-			$uValue = trim(
-				strip_tags(
-					htmlentities($uValue, ENT_QUOTES)
-				)
-			);
+		{
+			$uValue = trim($uValue);
+		}
 
 		return $uValue;
 	}
@@ -90,4 +89,5 @@ class Core
 	{
 		return require_once $uFile;
 	}
+	
 }

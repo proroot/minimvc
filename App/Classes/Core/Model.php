@@ -8,4 +8,5 @@ abstract class Model
     {
         return new 'Model_' . str_replace('.', '_', $uName);
     }
+    
 }

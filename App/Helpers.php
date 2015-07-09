@@ -1,5 +1,10 @@
 <?php
 
+function view($uFile, array $uData = [], $uEXT = null)
+{
+    return new Core\View($uFile, $uData, $uEXT);
+}
+
 function d($uData, $uLabel = '')
 {
     dPrint(dTrace(), $uData, $uLabel);
@@ -7,17 +12,17 @@ function d($uData, $uLabel = '')
 
 function dd($uData, $uLabel = '')
 {
-    dPrint(dTrace(), $uData, $uLabel);
-
-    exit;
+    exit(dPrint(dTrace(), $uData, $uLabel));
 }
 
 function dPrint($dTrace, $uData, $uLabel = '')
 {
     $uPrint = '<div style="background:#fafafa; margin:5px; padding: 5px; border: solid grey 1px;">';
     
-    if ($uLabel)
+    if ( ! empty($uLabel))
+    {
         $uPrint .= '<strong>' . $uLabel . '</strong> <br>';
+    }
 
     $uPrint .= $dTrace;
 
@@ -52,7 +57,8 @@ function dTrace()
         ? $uBt[2]['function']
         : '';
 
-    return sprintf('%s%s%s() строка %s <small>(в %s)</small>',
+    return sprintf(
+        '%s%s%s() строка %s <small>(в %s)</small>',
         $uClass, $uType, $uFunction, $uLine, $uFile
     );
 }

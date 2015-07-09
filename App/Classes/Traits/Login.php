@@ -9,4 +9,5 @@ trait Login
         if ( ! empty($_GET['test']))
             dd(['Error']);
     }
+    
 }

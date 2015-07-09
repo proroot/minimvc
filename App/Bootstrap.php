@@ -6,8 +6,6 @@
 
 require_once APPPATH . 'Classes/Core/Core.php';
 
-use Core\Core;
-
 /**
  * Enable the Core auto Loader
  */
@@ -22,4 +20,19 @@ set_exception_handler([
 	'Handler'
 ]);
 
-Core::init();
+Core\Core::init();
+
+/**
+ * Helpers
+ */
+
+require_once APPPATH . 'Helpers.php';
+
+/**
+ * Routes
+ */
+
+require_once APPPATH . 'Routes.php';
+
+echo Core\Request::init()
+    ->execute();

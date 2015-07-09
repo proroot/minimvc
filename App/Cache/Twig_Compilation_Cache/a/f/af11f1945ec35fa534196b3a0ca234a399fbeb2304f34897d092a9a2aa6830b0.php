@@ -16,7 +16,7 @@ class __TwigTemplate_af11f1945ec35fa534196b3a0ca234a399fbeb2304f34897d092a9a2aa6
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        echo twig_source($this->env, "Welcome.php");
+        echo twig_escape_filter($this->env, (isset($context["test"]) ? $context["test"] : null), "html", null, true);
     }
 
     public function getTemplateName()

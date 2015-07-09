@@ -1,1 +1,1 @@
-{{ source('Welcome.php') }}
+{{ test }}

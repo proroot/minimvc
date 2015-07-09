@@ -6,7 +6,7 @@ abstract class Controller
 {
 	protected $uRequest;
 
-	protected $uResponse = '';
+	private   $uResponse;
 
 	public function __construct(Request $uRequest)
 	{
@@ -17,19 +17,25 @@ abstract class Controller
 
 	public function execute()
 	{
-		$uAction = 'Action' . $this->uRequest->action();
+		$uAction = $this->uRequest->action();
 
 		if ( ! method_exists($this, $uAction))
+		{
 			throw new Exception('Не существует метод: :uMethod у контроллера: :uController', [
 				':uMethod'     => $uAction,
 				':uController' => $this->uRequest->controller()
 			]);
+		}
 
-		$this->before();
+		$uResponse = '';
 
-		$this->$uAction();
+		$uResponse .= $this->before();
 
-		$this->after();
+		$uResponse .= $this->$uAction();
+
+		$uResponse .= $this->after();
+
+		$this->uResponse = $uResponse;
 	}
 
 	public function before()
@@ -46,4 +52,5 @@ abstract class Controller
 	{
 		return (string) $this->uResponse;
 	}
+	
 }

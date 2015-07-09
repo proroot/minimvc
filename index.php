@@ -59,25 +59,12 @@ if (DEBUG)
 	ini_set('display_errors', true);
 }
 else
+{
 	error_reporting(0);
-
-/**
- * Functions
- */
-
-require_once APPPATH . 'Functions.php';
+}
 
 /**
  * Bootstrap the application
  */
 
 require_once APPPATH . 'Bootstrap.php';
-
-/**
- * Routes
- */
-
-require_once APPPATH . 'Routes.php';
-
-echo Core\Request::init()
-	->execute();

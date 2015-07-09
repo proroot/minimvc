@@ -11,16 +11,20 @@ class Route
 	public static function set($uMethod, $uName, $uRoute)
 	{
 		if ( ! empty(self::$_uRoutes[$uName]))
+		{
 			throw new Exception('Данный маршрут: :uRoute существует', [
 				':uRoute' => $uName
 			]);
+		}
 
 		$uRoute = explode('@', $uRoute);
 
 		self::$_uRoutes[$uName] = new self;
 
 		if (empty($uRoute[0]))
+		{
 			throw new Exception('Не удалось определить контроллер');
+		}
 
 		return self::$_uRoutes[$uName]
 			->rm($uMethod)
@@ -82,4 +86,5 @@ class Route
 
 		return $this;
 	}
+	
 }
