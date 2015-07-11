@@ -17,7 +17,7 @@ class View
         $this->uFile = $uFile;
         $this->uData = $uData;
 
-        if ($uEXT !== null)
+        if (null !== $uEXT)
         {
             $this->_uEXT = $uEXT;
         }
@@ -32,7 +32,7 @@ class View
 
     public function render()
     {
-        if ($this->uFile === null)
+        if (null === $this->uFile)
         {
             throw new Exception('Не удалось определить вид');
         }
@@ -56,7 +56,7 @@ class View
 
     public function getEXT()
     {
-        return ( ! empty(self::$_uGDataEXT)) ? self::$_uGDataEXT : $this->_uEXT;
+        return ! empty(self::$_uGDataEXT) ? self::$_uGDataEXT : $this->_uEXT;
     }
     
 }

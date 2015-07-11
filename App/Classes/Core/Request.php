@@ -5,52 +5,56 @@ use Core\Exception\Exception;
 
 class Request
 {
-	private static $uTrustedProxies = [
+	private static $_uInstance;
+
+	private static $_uTrustedProxies = [
 		'127.0.0.1',
 		'localhost',
 		'localhost.localdomain'
 	];
+
 	public static function init()
 	{
-		$uRequest = new self;
-
-		$uRequest->method(( ! empty($_SERVER['REQUEST_METHOD']))
-			? $_SERVER['REQUEST_METHOD']
-			: 'GET'
+		self::$_uInstance = new self;
+	
+		self::$_uInstance->host($_SERVER['HTTP_HOST']);
+	
+		self::$_uInstance->method(
+			! empty($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET'
 		);
-
+	
 		// Check HTTPS
-		if ( ! empty($_SERVER['HTTPS']) && (filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN))
-			|| ! empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
-				&& in_array($_SERVER['REMOTE_ADDR'], self::$uTrustedProxies)
+		if ( ! empty($_SERVER['HTTPS']) && filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN)
+			|| ! empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO']
+				&& in_array($_SERVER['REMOTE_ADDR'], self::$_uTrustedProxies)
 		)
 		{
-			$uRequest->secure(true);
+			self::$_uInstance->secure(true);
 		}
-
+	
 		// Referrer
 		if (isset($_SERVER['HTTP_REFERER']))
 		{
-			$uRequest->referrer($_SERVER['HTTP_REFERER']);
+			self::$_uInstance->referrer($_SERVER['HTTP_REFERER']);
 		}
-
+	
 		// User agent
 		if (isset($_SERVER['HTTP_USER_AGENT']))
 		{
-			$uRequest->userAgent($_SERVER['HTTP_USER_AGENT']);
+			self::$_uInstance->userAgent($_SERVER['HTTP_USER_AGENT']);
 		}
-
+	
 		// Check ajax
 		if ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+			&& 'xmlhttprequest' === strtolower($_SERVER['HTTP_X_REQUESTED_WITH']))
 		{
-			$uRequest->ajax(true);
+			self::$_uInstance->ajax(true);
 		}
-
+	
 		// Get IP
 		if ( ! empty($_SERVER['HTTP_X_FORWARDED_FOR'])
 			&& ! empty($_SERVER['REMOTE_ADDR'])
-			&& in_array($_SERVER['REMOTE_ADDR'], self::$uTrustedProxies)
+			&& in_array($_SERVER['REMOTE_ADDR'], self::$_uTrustedProxies)
 		)
 		{
 			$uClientIp = array_shift(
@@ -59,7 +63,7 @@ class Request
 		}
 		elseif ( ! empty($_SERVER['HTTP_CLIENT_IP'])
 			&&  ! empty($_SERVER['REMOTE_ADDR'])
-			&& in_array($_SERVER['REMOTE_ADDR'], self::$uTrustedProxies)
+			&& in_array($_SERVER['REMOTE_ADDR'], self::$_uTrustedProxies)
 		)
 		{
 			$uClientIp = array_shift(
@@ -74,15 +78,15 @@ class Request
 		{
 			$uClientIp = null;
 		}
-
-		$uRequest->clientIp($uClientIp);
-
+	
+		self::$_uInstance->clientIp($uClientIp);
+	
 		if ( ! empty($_GET['_uRoute']))
 		{
-			$uRequest->clientRoute($_GET['_uRoute']);
+			self::$_uInstance->clientRoute($_GET['_uRoute']);
 		}
 
-		return $uRequest;
+		return self::$_uInstance;
 	}
 
 	public static function proccess(Request $uRequest)
@@ -105,32 +109,26 @@ class Request
 
 			if ($uClientRoute === $uName)
 			{
-				$uParams['uClient'] = $uRouteDefaults;
-				break;
+				return $uRouteDefaults;
 			}
 
-			if (isset($uRouteDefaults['Home']))
+			if (isset($uRouteDefaults['uHome']))
 			{
 				$uParams['uHome'] = $uRouteDefaults;
 			}
 
-			if (isset($uRouteDefaults['Error']))
+			if (isset($uRouteDefaults['uError']))
 			{
 				$uParams['uError'] = $uRouteDefaults;
 			}
 		}
 
-		if ( ! empty($uParams['uClient']))
-		{
-			return $uParams['uClient'];
-		}
-
-		if ( ! empty($uParams['uError']) && ! empty($uClientRoute))
+		if (isset($uParams['uError']) && ! empty($uClientRoute))
 		{
 			return $uParams['uError'];
 		}
 
-		if ( ! empty($uParams['uHome']))
+		if (isset($uParams['uHome']))
 		{
 			return $uParams['uHome'];
 		}
@@ -138,21 +136,28 @@ class Request
 		return;
 	}
 
-	private $_uController;
+	public static function getInstance()
+	{
+		return self::$_uInstance;
+	}
 
-	private $_uAction;
+	private $_uController  = null;
 
-	private $_uClientRoute = '';
+	private $_uAction	   = null;
 
-	private $_uMethod      = 'GET';
+	private $_uClientRoute = null;
 
-	private $_uUserAgent   = '';
+	private $_uHost		   = null;
 
-	private $_uClientIp    = '0.0.0.0';
+	private $_uMethod      = null;
+
+	private $_uUserAgent   = null;
+
+	private $_uClientIp    = null;
 
 	private $_uSecure      = false;
 
-	private $_uReferrer    = '';
+	private $_uReferrer    = null;
 
 	private $_uAjax        = false;
 
@@ -165,11 +170,15 @@ class Request
 			throw new Exception('Не удалось определить параметры маршрута..');
 		}
 
-		$this->controller($uParams['Controller']);
+        if (isset($uParams['uCallback']) && is_callable($uParams['uCallback']))
+        {
+            return call_user_func($uParams['uCallback']);
+        }
 
-		$this->action(( ! empty($uParams['Action']))
-			? $uParams['Action']
-			: Route::$uDefaultAction
+		$this->controller($uParams['uController']);
+
+		$this->action(
+			! empty($uParams['uAction']) ? $uParams['uAction'] : Route::$uDefaultAction
 		);
 
 		$uNameController = 'Controller_' . $this->controller();
@@ -187,21 +196,19 @@ class Request
 
 	public function clientRoute($uClientRoute = null)
 	{
-		if ($uClientRoute === null)
+		if (null === $uClientRoute)
 		{
 			return $this->_uClientRoute;
 		}
 
-		$this->_uClientRoute = ( ! empty($uClientRoute))
-			? strtolower($uClientRoute)
-			: '';
+		$this->_uClientRoute = ! empty($uClientRoute) ? strtolower($uClientRoute) : null;
 
 		return $this;
 	}
 
 	public function secure($uSecure = null)
 	{
-		if ($uSecure === null)
+		if (null === $uSecure)
 		{
 			return $this->_uSecure;
 		}
@@ -213,7 +220,7 @@ class Request
 
 	public function controller($uController = null)
 	{
-		if ($uController === null)
+		if (null === $uController)
 		{
 			return $this->_uController;
 		}
@@ -225,7 +232,7 @@ class Request
 
 	public function action($uAction = null)
 	{
-		if ($uAction === null)
+		if (null === $uAction)
 		{
 			return $this->_uAction;
 		}
@@ -235,9 +242,22 @@ class Request
 		return $this;
 	}
 
+	public function host($uHost = null)
+	{
+		if (null === $uHost)
+		{
+			return $this->_uHost;
+		}
+
+		$this->_uHost = $uHost;
+
+		return $this;
+	}
+
+
 	public function method($uMethod = null)
 	{
-		if ($uMethod === null)
+		if (null === $uMethod)
 		{
 			return $this->_uMethod;
 		}
@@ -249,7 +269,7 @@ class Request
 
 	public function clientIp($uClientIp = null)
 	{
-		if ($uClientIp === null)
+		if (null === $uClientIp)
 		{
 			return $this->_uClientIp;
 		}
@@ -261,7 +281,7 @@ class Request
 
 	public function userAgent($uUserAgent = null)
 	{
-		if ($uUserAgent === null)
+		if (null === $uUserAgent)
 		{
 			return $this->_uUserAgent;
 		}
@@ -273,7 +293,7 @@ class Request
 
 	public function referrer($uReferrer = null)
 	{
-		if ($uReferrer === null)
+		if (null === $uReferrer)
 		{
 			return $this->_uReferrer;
 		}
@@ -285,7 +305,7 @@ class Request
 
 	public function ajax($uAjax = null)
 	{
-		if ($uAjax === null)
+		if (null === $uAjax)
 		{
 			return $this->_uAjax;
 		}

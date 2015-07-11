@@ -4,7 +4,7 @@ use Core\Exception\Exception;
 
 class Route
 {
-	public static $uDefaultAction = 'Index';
+	public static $uDefaultAction = 'index';
 
 	private static $_uRoutes 	  = [];
 
@@ -17,22 +17,26 @@ class Route
 			]);
 		}
 
-		$uRoute = explode('@', $uRoute);
+        if ( ! is_callable($uRoute))
+        {
+            $uRoute = explode('@', $uRoute);
+
+            if (empty($uRoute[0]))
+            {
+                throw new Exception('Не удалось определить контроллер');
+            }
+        }
 
 		self::$_uRoutes[$uName] = new self;
 
-		if (empty($uRoute[0]))
-		{
-			throw new Exception('Не удалось определить контроллер');
-		}
+		return  ! is_callable($uRoute)
+            ? self::$_uRoutes[$uName]
+			    ->RM($uMethod)
+			    ->controller($uRoute[0])
+			    ->action( ! empty($uRoute[1]) ? $uRoute[1] : self::$uDefaultAction)
 
-		return self::$_uRoutes[$uName]
-			->rm($uMethod)
-			->controller($uRoute[0])
-			->action(( ! empty($uRoute[1]))
-				? $uRoute[1]
-				: self::$uDefaultAction
-			);
+            : self::$_uRoutes[$uName]
+                ->callback($uRoute);
 	}
 
 	public static function group($uCallback)
@@ -54,35 +58,42 @@ class Route
 
 	public function aHome()
 	{
-		$this->_uDefaults['Home'] = true;
+		$this->_uDefaults['uHome'] = true;
 
 		return $this;
 	}
 
 	public function aError()
 	{
-		$this->_uDefaults['Error'] = true;
+		$this->_uDefaults['uError'] = true;
 
 		return $this;
 	}
 
-	private function rm($uTypes)
+	private function RM($uTypes)
 	{
 		$this->_uDefaults['RM'] = explode('|', $uTypes);
 
 		return $this;
 	}
 
+    public function callback($uRoute)
+    {
+        $this->_uDefaults['uCallback'] = $uRoute;
+
+        return $this;
+    }
+
 	private function controller($uController)
 	{
-		$this->_uDefaults['Controller'] = $uController;
+		$this->_uDefaults['uController'] = $uController;
 
 		return $this;
 	}
 
 	private function action($uAction)
 	{
-		$this->_uDefaults['Action'] = $uAction;
+		$this->_uDefaults['uAction'] = $uAction;
 
 		return $this;
 	}

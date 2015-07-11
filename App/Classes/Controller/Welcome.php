@@ -73,7 +73,7 @@ class Controller_Welcome extends Core\Controller
 
         //dd(file_get_contents('php://input'));
 
-        return view('Welcome', ['test' => $this->uRequest->userAgent()]);
+        return view('Welcome', ['test' => $this->uRequest->host()]);
     }
 
     public function test2()

@@ -75,9 +75,7 @@ class Core
 
 		$uPathClass .=  str_replace('_', DS, $uClass) . '.php';
 
-		return (is_readable($uPathClass))
-			? self::load($uPathClass)
-			: false;
+		return is_readable($uPathClass) ? self::load($uPathClass) : false;
 	}
 
 	/**

@@ -2,7 +2,7 @@
 
 use Core\Exception\Exception;
 
-abstract class Model
+class Model
 {
     public static function init($uName)
     {
