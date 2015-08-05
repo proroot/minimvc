@@ -4,16 +4,14 @@ use Core\Route;
 
 Route::set('POST', '', function()
 {
-    $uRequest = Core\Request::getInstance();
-
-    return $uRequest->host();
+    //redirect('https://vk.com');
 })->aHome();
 
 Route::group(function()
 {
-    Route::set('GET', 'test', 'welcome@test3')->aError();
+    Route::set('GET', 'test', 'Welcome@test')->aError();
 
-    Route::set('GET', 'test2', 'welcome');
+    Route::set('GET', 'test2', 'Welcome');
 });
 
 Route::set('GET', 'errorPage', 'error');

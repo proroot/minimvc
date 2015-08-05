@@ -4,6 +4,7 @@ use Core\Exception\Exception;
 use Core\View;
 use Core\Model;
 use Module\Curl\Curl;
+use Module\DB\DB;
 
 class Controller_Welcome extends Core\Controller
 {
@@ -72,6 +73,12 @@ class Controller_Welcome extends Core\Controller
         //header('Location: https://vk.com');
 
         //dd(file_get_contents('php://input'));
+
+        $uDB = DB::instance();
+
+        dd($uDB->query('INSERT INTO `test` SET `uText` = :text', [
+            'text' => 'dd'
+        ]));
 
         return view('Welcome', ['test' => $this->uRequest->host()]);
     }

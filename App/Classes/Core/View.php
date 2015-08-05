@@ -8,9 +8,10 @@ class View
     public static $_uGData    = [];
     public static $_uGDataEXT = null;
 
-    private $_uFile = '';
-    private $_uEXT  = EXT;
-    private $_uData = [];
+    private $_uFile  = '';
+    private $_uEXT   = EXT;
+    private $_uData  = [];
+    private $uRender = '';
 
     public function __construct($uFile, array $uData = [], $uEXT = null)
     {
@@ -21,13 +22,6 @@ class View
         {
             $this->_uEXT = $uEXT;
         }
-
-        $this->render();
-    }
-
-    public function __toString()
-    {
-        return (string) $this->render();
     }
 
     public function render()
@@ -51,7 +45,7 @@ class View
             ]);
         }
 
-        return new Twig($uPathFile, $uFileName, array_merge($this->uData, self::$_uGData));
+        return (new Twig($uPathFile))->render($uFileName, array_merge($this->uData, self::$_uGData));
     }
 
     public function getEXT()

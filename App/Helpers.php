@@ -2,7 +2,7 @@
 
 function view($uFile, array $uData = [], $uEXT = null)
 {
-    return new Core\View($uFile, $uData, $uEXT);
+    return (new Core\View($uFile, $uData, $uEXT))->render();
 }
 
 function d($uData, $uLabel = '')
@@ -12,7 +12,7 @@ function d($uData, $uLabel = '')
 
 function dd($uData, $uLabel = '')
 {
-    exit(dPrint(dTrace(), $uData, $uLabel));
+    e(dPrint(dTrace(), $uData, $uLabel));
 }
 
 function dPrint($dTrace, $uData, $uLabel = '')
@@ -61,4 +61,16 @@ function dTrace()
         '%s%s%s() строка %s <small>(в %s)</small>',
         $uClass, $uType, $uFunction, $uLine, $uFile
     );
+}
+
+function redirect($uUrl)
+{
+    header('Location: ' . $uUrl);
+    
+    e();
+}
+
+function e($uData = null)
+{
+    exit($uData);
 }

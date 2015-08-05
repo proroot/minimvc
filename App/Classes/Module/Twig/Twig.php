@@ -4,26 +4,24 @@ use Module\Twig\Twig\Autoloader;
 
 class Twig
 {
-    private $uResponse = '';
+    private $uTwig;
 
-    public function __construct($uTemplate, $uFileName, $uData)
+    public function __construct($uTemplate)
     {
         Autoloader::register();
 
         $uLoader = new \Twig_Loader_Filesystem($uTemplate);
 
-        $uTwig   = new \Twig_Environment($uLoader, array(
+        $this->uTwig   = new \Twig_Environment($uLoader, array(
             'cache'       => APPPATH . 'Cache' . DS . 'Twig_Compilation_Cache',
             // 'auto_reload' => true,
             'debug'       => DEBUG
         ));
-
-        $this->uResponse = $uTwig->render($uFileName, $uData);
     }
 
-    public function __toString()
+    public function render($uFileName, $uData)
     {
-        return (string) $this->uResponse;
+        return (string) $this->uTwig->render($uFileName, $uData);
     }
     
 }
