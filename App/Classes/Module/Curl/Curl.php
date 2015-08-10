@@ -18,7 +18,7 @@ class Curl
         $this->setOption([
             CURLINFO_HEADER_OUT    => true,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_VERBOSE        => true,
             CURLOPT_ENCODING       => '',
             CURLOPT_SSL_VERIFYPEER => false,
@@ -39,9 +39,9 @@ class Curl
     {
         $uResponse = curl_exec($this->uCurl);
 
-        $this->uResponse = ( ! curl_errno($this->uCurl))
-            ? $uResponse
-            : curl_error($this->uCurl);
+        $this->uResponse = curl_errno($this->uCurl)
+            ? curl_error($this->uCurl)
+            : $uResponse;
 
         return $this;
     }
@@ -178,10 +178,7 @@ class Curl
 
     private function buildURL($uUrl, array $uData = [])
     {
-        return $uUrl . ( ! empty ($uData)
-            ? '?' . http_build_query($uData)
-            : ''
-        );
+        return $uUrl . ( ! empty ($uData) ? '?' . http_build_query($uData) : '');
     }
 
     public function getInfo()

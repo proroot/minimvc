@@ -6,7 +6,8 @@ use Core\Exception\Exception;
 
 class DB
 {
-    protected static $uInstance = null;
+    protected static $_uInstance = null;
+    protected $_uDB;
 
     private $uHost     = '';
     private $uBase     = '';
@@ -15,15 +16,15 @@ class DB
 
     public static function instance()
     {
-        return null !== self::$uInstance
-            ? self::$uInstance
-            : new self;
+        return null === self::$_uInstance
+            ? self::$_uInstance = new self
+            : self::$_uInstance;
     }
 
     public function query($uSql, array $uData = [])
     {
 
-        if ($uQuery = self::$uInstance->prepare($uSql))
+        if ($uQuery = $this->_uDB->prepare($uSql))
         {
             $uQuery->execute($uData);
 
@@ -39,6 +40,22 @@ class DB
         }
     }
 
+    public function fetchAll($uSql, array $uData = [])
+    {
+        if ($uFetch = $this->query($uSql, $uData))
+        {
+            return $uFetch->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function rowCount($uSql, array $uData = [])
+    {
+        if ($uCount = $this->query($uSql, $uData))
+        {
+            return $uCount->rowCount();
+        }
+    }
+
     private function __construct()
     {
         if (empty($this->uHost) || empty($this->uBase) || empty($this->uLogin) || empty($this->uPassword))
@@ -46,7 +63,7 @@ class DB
             throw new Exception('Один из параметров пуст');
         }
 
-        self::$uInstance = new PDO('mysql:host=' . $this->uHost . ';dbname=' . $this->uBase . ';charset=utf8', $this->uLogin, $this->uPassword, [
+        $this->_uDB = new PDO('mysql:host=' . $this->uHost . ';dbname=' . $this->uBase . ';charset=utf8', $this->uLogin, $this->uPassword, [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_PERSISTENT         => true,
             PDO::ATTR_EMULATE_PREPARES   => true,

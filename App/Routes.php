@@ -2,8 +2,9 @@
 
 use Core\Route;
 
-Route::set('POST', '', function()
+Route::set('GET', '', function()
 {
+    return 'dd';
     //redirect('https://vk.com');
 })->aHome();
 
