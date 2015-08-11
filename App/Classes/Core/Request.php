@@ -170,6 +170,8 @@ class Request
 			throw new Exception('Не удалось определить параметры маршрута..');
 		}
 
+		$this->setContentTypeAndCharset();
+		
         if (isset($uParams['uCallback']) && is_callable($uParams['uCallback']))
         {
             return call_user_func($uParams['uCallback']);
@@ -192,6 +194,11 @@ class Request
 		}
 
 		return new $uNameController($this);
+	}
+
+	public function setContentTypeAndCharset()
+	{
+		header ('Content-Type: ' . Core::$uContentType . '; charset=' . Core::$uCharset);
 	}
 
 	public function clientRoute($uClientRoute = null)

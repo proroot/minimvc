@@ -1,10 +1,5 @@
 <?php
 
-function view($uFile, array $uData = [], $uEXT = null)
-{
-    return (new Core\View($uFile, $uData, $uEXT))->render();
-}
-
 function d($uData, $uLabel = '')
 {
     dPrint(dTrace(), $uData, $uLabel);
@@ -49,6 +44,11 @@ function dTrace()
         '%s%s%s() строка %s <small>(в %s)</small>',
         $uClass, $uType, $uFunction, $uLine, $uFile
     );
+}
+
+function view($uFile, array $uData = [], $uEXT = null)
+{
+    return (new Core\View($uFile, $uData, $uEXT))->render();
 }
 
 function redirect($uURL)

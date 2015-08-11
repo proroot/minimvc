@@ -4,26 +4,26 @@ use Core\Exception\Exception;
 
 abstract class Controller
 {
-	protected $uRequest;
+	protected $_uRequest;
 
-	private   $uResponse;
+	private   $_uResponse;
 
 	public function __construct(Request $uRequest)
 	{
-		$this->uRequest = $uRequest;
+		$this->_uRequest = $uRequest;
 
 		$this->execute();
 	}
 
 	public function execute()
 	{
-		$uAction = $this->uRequest->action();
+		$uAction = $this->_uRequest->action();
 
 		if ( ! method_exists($this, $uAction))
 		{
 			throw new Exception('Не существует метод: :uMethod у контроллера: :uController', [
 				':uMethod'     => $uAction,
-				':uController' => $this->uRequest->controller()
+				':uController' => $this->_uRequest->controller()
 			]);
 		}
 
@@ -35,7 +35,7 @@ abstract class Controller
 
 		$uResponse .= $this->after();
 
-		$this->uResponse = $uResponse;
+		$this->_uResponse = $uResponse;
 	}
 
 	public function before()
@@ -50,7 +50,7 @@ abstract class Controller
 
 	public function __toString()
 	{
-		return (string) $this->uResponse;
+		return (string) $this->_uResponse;
 	}
 	
 }

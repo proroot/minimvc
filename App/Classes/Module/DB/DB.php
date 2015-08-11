@@ -9,9 +9,9 @@ class DB
     protected static $_uInstance = null;
     protected $_uDB;
 
-    private $uHost     = '';
-    private $uBase     = '';
-    private $uLogin    = '';
+    private $uHost     = '127.0.0.1';
+    private $uBase     = 'vk';
+    private $uLogin    = 'root';
     private $uPassword = '';
 
     public static function instance()
@@ -23,7 +23,6 @@ class DB
 
     public function query($uSql, array $uData = [])
     {
-
         if ($uQuery = $this->_uDB->prepare($uSql))
         {
             $uQuery->execute($uData);
@@ -32,19 +31,19 @@ class DB
         }
     }
 
-    public function fetch($uSql, array $uData = [])
+    public function fetch($uSql, array $uData = [], $uFlag = PDO::FETCH_ASSOC)
     {
         if ($uFetch = $this->query($uSql, $uData))
         {
-            return $uFetch->fetch(PDO::FETCH_ASSOC);
+            return $uFetch->fetch($uFlag);
         }
     }
 
-    public function fetchAll($uSql, array $uData = [])
+    public function fetchAll($uSql, array $uData = [], $uFlag = PDO::FETCH_ASSOC)
     {
         if ($uFetch = $this->query($uSql, $uData))
         {
-            return $uFetch->fetchAll(PDO::FETCH_ASSOC);
+            return $uFetch->fetchAll($uFlag);
         }
     }
 
@@ -58,11 +57,6 @@ class DB
 
     private function __construct()
     {
-        if (empty($this->uHost) || empty($this->uBase) || empty($this->uLogin) || empty($this->uPassword))
-        {
-            throw new Exception('Один из параметров пуст');
-        }
-
         $this->_uDB = new PDO('mysql:host=' . $this->uHost . ';dbname=' . $this->uBase . ';charset=utf8', $this->uLogin, $this->uPassword, [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_PERSISTENT         => true,

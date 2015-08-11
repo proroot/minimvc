@@ -2,21 +2,8 @@
 
 class Core
 {
-	/**
-	 * @var Content type
-	 */
-
 	public static $uContentType = 'text/html';
-
-	/**
-	 * @var Charset
-	 */
-
 	public static $uCharset     = 'utf-8';
-
-	/**
-	 * @return  void
-	 */
 
 	public static function init(array $uSettings = [])
 	{
@@ -32,11 +19,6 @@ class Core
 		$_COOKIE = self::sanitize($_COOKIE);
 		$_SERVER = self::sanitize($_SERVER);
 	}
-
-	/**
-	 * @param  string $uValue
-	 * @return array
-	 */
 
 	public static function sanitize($uValue)
 	{
@@ -55,11 +37,6 @@ class Core
 		return $uValue;
 	}
 
-	/**
-	 * @param  string $uClass
-	 * @return boolen
-	 */
-
 	public static function autoLoad($uClass)
 	{
 		$uClass     = ltrim($uClass, '\\');
@@ -73,15 +50,13 @@ class Core
 			$uPathClass .= str_replace('\\', DS, $uNamespace) . DS;
 		}
 
-		$uPathClass .=  str_replace('_', DS, $uClass) . '.php';
+		$uPathClass .= str_replace('_', DS, $uClass) . '.php';
 
-		return is_readable($uPathClass) ? self::load($uPathClass) : false;
+		if (is_readable($uPathClass))
+		{
+			return self::load($uPathClass);
+		}
 	}
-
-	/**
-	 * @param  string $uFile
-	 * @return boolen
-	 */
 
 	public static function load($uFile)
 	{

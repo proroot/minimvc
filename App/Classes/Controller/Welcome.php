@@ -76,9 +76,11 @@ class Controller_Welcome extends Core\Controller
 
         $uDB = DB::instance();
 
-        dd($uDB->query('INSERT INTO `test` SET `uText` = :text', [
-            'text' => 'dd'
-        ]));
+        dd($uDB->fetchAll('
+            SELECT *
+                FROM `users`
+                    LIMIT 50
+        ', [], PDO::FETCH_COLUMN | PDO::FETCH_GROUP));
 
         return view('Welcome', ['test' => $this->uRequest->host()]);
     }

@@ -34,4 +34,8 @@ require_once APPPATH . 'Helpers.php';
 
 require_once APPPATH . 'Routes.php';
 
+/**
+ * Run core
+ */
+
 echo Core\Request::init()->execute();
