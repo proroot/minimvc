@@ -3,8 +3,10 @@
 use Core\Exception\Exception;
 use Core\View;
 use Core\Model;
-use Module\Curl\Curl;
 use Module\DB\DB;
+
+use Prt\Curl\Curl;
+use Slim\PDO\Database;
 
 class Controller_Welcome extends Core\Controller
 {
@@ -24,14 +26,20 @@ class Controller_Welcome extends Core\Controller
     
         //$this->uResponse = View::init('test.test', ['uTest' => 'dd'], '.txt');
     
-        // $uCurl = new Curl();
+        $uCurl = new Curl();
     
-        // $this->uResponse = $uCurl
-        //     ->get('https://play.google.com/store/apps')
-        //     ->getResponse();
+        return $uCurl->get('https://proroot.net', [], true);
+
+        // $dsn = 'mysql:host=127.0.0.1;dbname=vk;charset=utf8';
+        // $usr = 'root';
+        // $pwd = '';
+
+        // $pdo = new Database($dsn, $usr, $pwd);
 
     
-        // $uWelcome = Model::init('Test.Welcome');
+        // dd($pdo);
+
+        return view('Welcome', ['test' => $this->_uRequest->host()]);
 
 
     
@@ -54,26 +62,6 @@ class Controller_Welcome extends Core\Controller
 
     public function test()
     {
-        //dd(file_get_contents('php://input'));
-
-// The result
-        // print_r($_GET);
-        // $this->uResponse = 'actionTest';
-
-        // Twig_Autoloader::register(true);
-
-        // $loader = new Twig_Loader_Filesystem(APPPATH . 'Views' . DS);
-
-        // $twig = new Twig_Environment($loader, array(
-        //     'cache'       => 'compilation_cache',
-        //     'auto_reload' => true
-        // ));
-
-        // echo $twig->render('Welcome.php', array('list' => array(1,2,3,4,5)));
-        //header('Location: https://vk.com');
-
-        //dd(file_get_contents('php://input'));
-
         $uDB = DB::instance();
 
         dd($uDB->fetchAll('

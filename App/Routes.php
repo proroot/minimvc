@@ -10,7 +10,7 @@ Route::set('GET', '', function()
 
 Route::group(function()
 {
-    Route::set('GET', 'test', 'Welcome@test')->aError();
+    Route::set('GET', 'test', 'Welcome@index')->aError();
 
     Route::set('GET', 'test2', 'Welcome');
 });

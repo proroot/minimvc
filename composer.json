@@ -1,4 +1,19 @@
 {
-    "name":"minimvc",
-    "version":"1.0.0"
+    "authors": [
+        {
+            "name": "Il",
+            "homepage": "https://proroot.net",
+            "role": "Developer"
+        }
+    ],
+
+    "config": {
+        "vendor-dir": "App/Classes/Composer/"
+    },
+
+    "require": {
+        "php": ">=5.3.0",
+        "prt/curl": "dev-master",
+        "slim/pdo": "dev-master"
+    }
 }
