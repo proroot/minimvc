@@ -52,3 +52,5 @@ composer.lock
 composer.phar
 vendor/
 .idea/
+App/Cache/Twig_Compilation_Cache/
+App/Classes/Composer/
