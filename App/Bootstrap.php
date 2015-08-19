@@ -24,10 +24,18 @@ if (is_readable($uLoadPathComposer = APPPATH . 'Classes/Composer/autoload.php'))
     require_once $uLoadPathComposer;
 }
 
+/**
+ * Set exception handler
+ */
+
 set_exception_handler([
 	'Core\Exception\Exception',
 	'Handler'
 ]);
+
+/**
+ * Initialization core
+ */
 
 Core\Core::init();
 

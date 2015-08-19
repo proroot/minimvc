@@ -13,7 +13,6 @@
 
     "require": {
         "php": ">=5.3.0",
-        "prt/curl": "dev-master",
-        "slim/pdo": "dev-master"
+        "prt/curl": "dev-master"
     }
 }

@@ -6,7 +6,6 @@ use Core\Model;
 use Module\DB\DB;
 
 use Prt\Curl\Curl;
-use Slim\PDO\Database;
 
 class Controller_Welcome extends Core\Controller
 {
@@ -26,9 +25,9 @@ class Controller_Welcome extends Core\Controller
     
         //$this->uResponse = View::init('test.test', ['uTest' => 'dd'], '.txt');
     
-        $uCurl = new Curl();
+        // $uCurl = new Curl();
     
-        return $uCurl->get('https://proroot.net', [], true);
+        // return $uCurl->get('https://proroot.net', [], true);
 
         // $dsn = 'mysql:host=127.0.0.1;dbname=vk;charset=utf8';
         // $usr = 'root';
@@ -39,7 +38,7 @@ class Controller_Welcome extends Core\Controller
     
         // dd($pdo);
 
-        return view('Welcome', ['test' => $this->_uRequest->host()]);
+        return view('Welcome', ['test' => $this->_uRequest->pathApp()]);
 
 
     

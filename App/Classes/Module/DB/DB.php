@@ -69,5 +69,10 @@ class DB
     {
 
     }
+
+    private function __wakeup()
+    {
+
+    }
     
 }

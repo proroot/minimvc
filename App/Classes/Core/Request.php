@@ -18,7 +18,9 @@ class Request
 		self::$_uInstance = new self;
 	
 		self::$_uInstance->host($_SERVER['HTTP_HOST']);
-	
+
+		self::$_uInstance->pathApp($_SERVER['SCRIPT_NAME']);
+
 		self::$_uInstance->method(
 			! empty($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET'
 		);
@@ -149,6 +151,8 @@ class Request
 
 	private $_uHost		   = null;
 
+	private $_uPathApp     = null;
+
 	private $_uMethod      = null;
 
 	private $_uUserAgent   = null;
@@ -190,7 +194,6 @@ class Request
 			throw new Exception('Не существует класс контроллера: :uController', [
 				':uController' => $uNameController
 			]);
-
 		}
 
 		return new $uNameController($this);
@@ -261,6 +264,17 @@ class Request
 		return $this;
 	}
 
+	public function pathApp($uPathApp = null)
+	{
+		if (null === $uPathApp)
+		{
+			return $this->_uPathApp;
+		}
+
+		$this->_uPathApp = str_replace('index.php', 'App/', $uPathApp);
+
+		return $this;
+	}
 
 	public function method($uMethod = null)
 	{
