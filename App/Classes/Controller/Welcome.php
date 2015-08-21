@@ -4,6 +4,7 @@ use Core\Exception\Exception;
 use Core\View;
 use Core\Model;
 use Module\DB\DB;
+use Model\Test\Welcome;
 
 use Prt\Curl\Curl;
 
@@ -15,11 +16,11 @@ class Controller_Welcome extends Core\Controller
     {
 		//$this->uResponse = $this->uRequest->userAgent();
 
-        // $uWelcome = new Model_Welcome();
+        // $uWelcome = new Welcome();
     
         // $uTest = $uWelcome->test();
     
-        // echo $uTest;
+        // return $uTest;
     
         //View::$_uGData = ['test2' => 12];
     
@@ -28,7 +29,7 @@ class Controller_Welcome extends Core\Controller
         // $uCurl = new Curl();
     
         // return $uCurl->get('https://proroot.net', [], true);
-        
+
         View::gData(['test' => 'sddd']);
 
         View::gData(['test2' => 'sdsdd']);

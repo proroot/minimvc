@@ -54,6 +54,8 @@ class Core
 
 		if (is_readable($uPathClass))
 		{
+			// echo $uPathClass . PHP_EOL;
+
 			return require_once $uPathClass;
 		}
 	}

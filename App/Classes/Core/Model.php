@@ -2,11 +2,11 @@
 
 use Core\Exception\Exception;
 
-class Model
+abstract class Model
 {
-    public static function init($uName)
+    public function __construct()
     {
-        return new 'Model_' . str_replace('.', '_', $uName);
+
     }
     
 }
