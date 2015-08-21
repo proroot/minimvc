@@ -271,7 +271,7 @@ class Request
 			return $this->_uPathApp;
 		}
 
-		$this->_uPathApp = str_replace('index.php', 'App/', $uPathApp);
+		$this->_uPathApp = str_replace('index.php', '', $uPathApp);
 
 		return $this;
 	}

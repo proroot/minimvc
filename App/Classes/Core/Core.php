@@ -54,13 +54,8 @@ class Core
 
 		if (is_readable($uPathClass))
 		{
-			return self::load($uPathClass);
+			return require_once $uPathClass;
 		}
-	}
-
-	public static function load($uFile)
-	{
-		return require_once $uFile;
 	}
 	
 }

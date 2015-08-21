@@ -5,13 +5,17 @@ use Module\Twig\Twig;
 
 class View
 {
-    public static $_uGData    = [];
-    public static $_uGDataEXT = null;
+    private static $_uGData = [];
 
     private $_uFile  = '';
     private $_uEXT   = EXT;
     private $_uData  = [];
     private $uRender = '';
+
+    public static function gData(array $uData = [])
+    {
+        self::$_uGData = ! empty($uData) ? array_merge(self::$_uGData, $uData) : [];
+    }
 
     public function __construct($uFile, array $uData = [], $uEXT = null)
     {
@@ -26,14 +30,9 @@ class View
 
     public function render()
     {
-        if (null === $this->uFile)
-        {
-            throw new Exception('Не удалось определить вид');
-        }
-
         $uPathFile = APPPATH . 'Views' . DS;
 
-        $uFileName = str_replace('.', DS, $this->uFile) . $this->getEXT();
+        $uFileName = str_replace('.', DS, $this->uFile) . $this->_uEXT;
 
         $uFullPathFile = $uPathFile . $uFileName;
 
@@ -46,11 +45,6 @@ class View
         }
 
         return (new Twig($uPathFile))->render($uFileName, array_merge($this->uData, self::$_uGData));
-    }
-
-    public function getEXT()
-    {
-        return ! empty(self::$_uGDataEXT) ? self::$_uGDataEXT : $this->_uEXT;
     }
     
 }

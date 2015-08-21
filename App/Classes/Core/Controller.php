@@ -5,7 +5,7 @@ use Core\Exception\Exception;
 abstract class Controller
 {
 	protected $_uRequest;
-
+	
 	private   $_uResponse;
 
 	public function __construct(Request $uRequest)

@@ -34,7 +34,7 @@ class Route
 			    ->RM($uMethod)
 			    ->controller($uRoute[0])
 			    ->action( ! empty($uRoute[1]) ? $uRoute[1] : self::$uDefaultAction)
-
+                
             : self::$_uRoutes[$uName]
                 ->callback($uRoute);
 	}

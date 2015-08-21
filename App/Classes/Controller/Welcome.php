@@ -28,17 +28,12 @@ class Controller_Welcome extends Core\Controller
         // $uCurl = new Curl();
     
         // return $uCurl->get('https://proroot.net', [], true);
+        
+        View::gData(['test' => 'sddd']);
 
-        // $dsn = 'mysql:host=127.0.0.1;dbname=vk;charset=utf8';
-        // $usr = 'root';
-        // $pwd = '';
+        View::gData(['test2' => 'sdsdd']);
 
-        // $pdo = new Database($dsn, $usr, $pwd);
-
-    
-        // dd($pdo);
-
-        return view('Welcome', ['test' => $this->_uRequest->pathApp()]);
+        return view('Welcome', ['test2' => $this->_uRequest->pathApp()]);
 
 
     
@@ -57,6 +52,11 @@ class Controller_Welcome extends Core\Controller
         // ];
 
         // dd($uData, 'ddd');
+    }
+
+    public function post()
+    {
+        dd(file_get_contents('php://input'));
     }
 
     public function test()

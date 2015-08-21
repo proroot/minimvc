@@ -36,9 +36,9 @@ function dTrace()
     $uLine     = $uTrace['line'];
     $uFile     = $uTrace['file'];
     $uFunction = $uTrace['function'];
-    $uClass    = (isset($uBt[2]['class'])) ? $uBt[2]['class'] : $uFile;
-    $uType     = (isset($uBt[2]['class'])) ? $uBt[2]['type'] : ' ';
-    $uFunction = (isset($uBt[2]['function'])) ? $uBt[2]['function'] : '';
+    $uClass    = isset($uBt[2]['class']) ? $uBt[2]['class'] : $uFile;
+    $uType     = isset($uBt[2]['class']) ? $uBt[2]['type'] : ' ';
+    $uFunction = isset($uBt[2]['function']) ? $uBt[2]['function'] : '';
 
     return sprintf(
         '%s%s%s() строка %s <small>(в %s)</small>',
