@@ -10,7 +10,7 @@ use Prt\Curl\Curl;
 
 class Controller_Welcome extends Core\Controller
 {
-    // use Traits\Login;
+    use \Model\Traits\Login;
 
     public function index()
     {
@@ -64,13 +64,14 @@ class Controller_Welcome extends Core\Controller
     {
         $uDB = DB::instance();
 
-        dd($uDB->fetchAll('
-            SELECT *
-                FROM `users`
-                    LIMIT 50
-        ', [], PDO::FETCH_COLUMN | PDO::FETCH_GROUP));
+        // $uTest = $uDB->query('
+        //     INSERT INTO `users`
+        //         SET `first_name` = "test"
+        // ');
+        
+        // dd($uTest->lastInsertId());
 
-        return view('Welcome', ['test' => $this->uRequest->host()]);
+        // return view('Welcome', ['test' => $this->uRequest->host()]);
     }
 
     public function test2()

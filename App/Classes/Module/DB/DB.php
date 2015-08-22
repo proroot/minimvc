@@ -16,7 +16,9 @@ class DB
 
     public static function instance()
     {
-        return null === self::$_uInstance ? self::$_uInstance = new self : self::$_uInstance;
+        return null === self::$_uInstance
+            ? self::$_uInstance = new self
+            : self::$_uInstance;
     }
 
     public function query($uSql, array $uData = [])
