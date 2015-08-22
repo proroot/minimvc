@@ -2,7 +2,7 @@
 
 use Core\Exception\Exception;
 
-class Welcome extends \Core\Model
+class Welcome
 {
 	public function test()
 	{
