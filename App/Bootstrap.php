@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Load the core class
+ * Подключаем основной класс
  */
 
 require_once APPPATH . 'Classes/Core/Core.php';
 
 /**
- * Enable the core auto loader
+ * Регистрируем функцию Core\Core::autoLoad в качестве реализации метода __autoload()
  */
 
 spl_autoload_register([
     'Core\Core',
-    'AutoLoad'
+    'autoLoad'
 ]);
 
 /**
- * Enable the composer auto loader
+ * Подключаем autoload сomposer'a, если есть
  */
 
 if (is_readable($uLoadPathComposer = APPPATH . 'Classes/Composer/autoload.php'))
@@ -25,7 +25,7 @@ if (is_readable($uLoadPathComposer = APPPATH . 'Classes/Composer/autoload.php'))
 }
 
 /**
- * Set exception handler
+ * Задаем пользовательский обработчик исключений
  */
 
 set_exception_handler([
@@ -34,25 +34,25 @@ set_exception_handler([
 ]);
 
 /**
- * Initialization core
+ * Инициализируем ядро
  */
 
 Core\Core::init();
 
 /**
- * Helpers
+ * Помощники
  */
 
 require_once APPPATH . 'Helpers.php';
 
 /**
- * Routes
+ * Маршруты
  */
 
 require_once APPPATH . 'Routes.php';
 
 /**
- * Run core
+ * Запуск ядра
  */
 
 echo Core\Request::init()->execute();

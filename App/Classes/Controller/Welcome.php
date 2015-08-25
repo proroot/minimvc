@@ -10,7 +10,7 @@ use Prt\Curl\Curl;
 
 class Controller_Welcome extends Core\Controller
 {
-    use \Model\Traits\Login;
+    use \Traits\Login;
 
     public function index()
     {

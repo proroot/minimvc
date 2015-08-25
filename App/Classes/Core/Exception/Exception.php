@@ -16,7 +16,8 @@ class Exception extends \Exception
         {
             echo sprintf(
                 '%s [ %s ]: %s ~ %s [ %d ]',
-                get_class($uE), $uE->getCode(), strip_tags($uE->getMessage()), $uE->getFile(), $uE->getLine()
+                get_class($uE), $uE->getCode(), strip_tags($uE->getMessage()),
+                $uE->getFile(), $uE->getLine()
             );
         }
 	}

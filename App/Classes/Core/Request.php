@@ -27,8 +27,9 @@ class Request
 	
 		// Check HTTPS
 		if ( ! empty($_SERVER['HTTPS']) && filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN)
-			|| ! empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO']
-				&& in_array($_SERVER['REMOTE_ADDR'], self::$_uTrustedProxies)
+			|| ! empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
+				&& 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO']
+					&& in_array($_SERVER['REMOTE_ADDR'], self::$_uTrustedProxies)
 		)
 		{
 			self::$_uInstance->secure(true);
@@ -81,7 +82,7 @@ class Request
 			$uClientIp = null;
 		}
 	
-		self::$_uInstance->clientIp($uClientIp);
+		self::$_uInstance->clientIP($uClientIp);
 	
 		if ( ! empty($_GET['_uRoute']))
 		{
@@ -157,7 +158,7 @@ class Request
 
 	private $_uUserAgent   = null;
 
-	private $_uClientIp    = null;
+	private $_uClientIP    = null;
 
 	private $_uSecure      = false;
 
@@ -288,14 +289,14 @@ class Request
 		return $this;
 	}
 
-	public function clientIp($uClientIp = null)
+	public function clientIP($uClientIP = null)
 	{
-		if (null === $uClientIp)
+		if (null === $uClientIP)
 		{
-			return $this->_uClientIp;
+			return $this->_uClientIP;
 		}
 
-		$this->_uClientIp = (string) $uClientIp;
+		$this->_uClientIP = (string) $uClientIP;
 
 		return $this;
 	}

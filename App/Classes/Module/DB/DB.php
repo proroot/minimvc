@@ -9,10 +9,10 @@ class DB
     protected static $_uInstance = null;
     protected $_uDB;
 
-    private $uHost     = '127.0.0.1';
-    private $uBase     = 'vk';
-    private $uLogin    = 'root';
-    private $uPassword = '';
+    private $_uHost     = '127.0.0.1';
+    private $_uBase     = 'vk';
+    private $_uLogin    = 'root';
+    private $_uPassword = '';
 
     public static function instance()
     {
@@ -58,8 +58,8 @@ class DB
     private function __construct()
     {
         $this->_uDB = new PDO(
-            'mysql:host=' . $this->uHost . ';dbname=' . $this->uBase . ';charset=utf8',
-            $this->uLogin, $this->uPassword, [
+            'mysql:host=' . $this->_uHost . ';dbname=' . $this->_uBase . ';charset=utf8',
+            $this->_uLogin, $this->_uPassword, [
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_PERSISTENT         => true,
                 PDO::ATTR_EMULATE_PREPARES   => true,

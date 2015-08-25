@@ -1,56 +1,46 @@
 <?php
 
 /**
- * Start time
+ * Время запуска системы
  */
 
 define('START_TIME', microtime(true));
 
 /**
- * Start memory
+ * Количество памяти выделенной PHP, при запуске
  */
 
 define('START_MEMORY', memory_get_usage());
 
 /**
- * Debug code
+ * Режим отлаживания кода
  */
 
 const DEBUG = true;
 
 /**
- * Reconstruction site
- */
-
-const RECONSTRUCTION = false;
-
-/**
- * Directory separator
+ * Сепаратор
  */
 
 const DS = DIRECTORY_SEPARATOR;
 
 /**
- * The default extension of resource files
+ * Расширение по умолчанию для файлов ресурса
  */
 
 const EXT = '.php';
 
 /**
- * Full path
+ * Полный путь
  */
 
 define('DOCROOT', __DIR__ . DS);
 
 /**
- * The full path to the application -> Application
+ * Полный путь до приложения
  */
 
 define('APPPATH', realpath(DOCROOT . 'App') . DS);
-
-/**
- * Error output
- */
 
 if (DEBUG)
 {
@@ -62,9 +52,5 @@ else
 {
 	error_reporting(0);
 }
-
-/**
- * Bootstrap the application
- */
 
 require_once APPPATH . 'Bootstrap.php';

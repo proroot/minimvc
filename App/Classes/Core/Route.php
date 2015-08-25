@@ -29,7 +29,7 @@ class Route
 
 		self::$_uRoutes[$uName] = new self;
 
-		return  ! is_callable($uRoute)
+		return ! is_callable($uRoute)
             ? self::$_uRoutes[$uName]
 			    ->RM($uMethod)
 			    ->controller($uRoute[0])
@@ -77,7 +77,7 @@ class Route
 		return $this;
 	}
 
-    public function callback($uRoute)
+    private function callback($uRoute)
     {
         $this->_uDefaults['uCallback'] = $uRoute;
 
