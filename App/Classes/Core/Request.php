@@ -25,7 +25,6 @@ class Request
 			! empty($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET'
 		);
 	
-		// Check HTTPS
 		if ( ! empty($_SERVER['HTTPS']) && filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN)
 			|| ! empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
 				&& 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO']
@@ -35,26 +34,22 @@ class Request
 			self::$_uInstance->secure(true);
 		}
 	
-		// Referrer
 		if (isset($_SERVER['HTTP_REFERER']))
 		{
 			self::$_uInstance->referrer($_SERVER['HTTP_REFERER']);
 		}
 	
-		// User agent
 		if (isset($_SERVER['HTTP_USER_AGENT']))
 		{
 			self::$_uInstance->userAgent($_SERVER['HTTP_USER_AGENT']);
 		}
 	
-		// Check ajax
 		if ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH'])
 			&& 'xmlhttprequest' === strtolower($_SERVER['HTTP_X_REQUESTED_WITH']))
 		{
 			self::$_uInstance->ajax(true);
 		}
 	
-		// Get IP
 		if ( ! empty($_SERVER['HTTP_X_FORWARDED_FOR'])
 			&& ! empty($_SERVER['REMOTE_ADDR'])
 			&& in_array($_SERVER['REMOTE_ADDR'], self::$_uTrustedProxies)
