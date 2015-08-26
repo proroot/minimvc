@@ -98,14 +98,14 @@ class Request
 			$uRouteDefaults = $uRoute->getDefaults();
 
 			if ( ! empty($uRouteDefaults['RM']) &&
-				$uRouteDefaults['RM'][0] !== 'ANY' &&
+				$uRouteDefaults['RM'][0] != 'ANY' &&
 				! in_array($uRequest->method(), $uRouteDefaults['RM'])
 			)
 			{
 				continue;
 			}
 
-			if ($uClientRoute === $uName)
+			if ($uClientRoute == $uName)
 			{
 				return $uRouteDefaults;
 			}

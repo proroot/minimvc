@@ -30,8 +30,7 @@ function dPrint($dTrace, $uData, $uLabel = '')
 
 function dTrace()
 {
-    $uBt = debug_backtrace();
-    
+    $uBt       = debug_backtrace();
     $uTrace    = $uBt[1];
     $uLine     = $uTrace['line'];
     $uFile     = $uTrace['file'];

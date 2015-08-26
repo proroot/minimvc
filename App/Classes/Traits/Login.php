@@ -1,4 +1,4 @@
-<?php namespace Model\Traits;
+<?php namespace Traits;
 
 use Core\Exception\Exception;
 
@@ -6,9 +6,9 @@ trait Login
 {
     public function before()
     {
-        if ( ! empty($_GET['test']))
+        if ( ! empty($_COOKIE['test']))
         {
-            dd(['Error']);
+            dd(['Error auth']);
         }
     }
     

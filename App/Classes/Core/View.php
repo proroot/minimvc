@@ -7,10 +7,9 @@ class View
 {
     private static $_uGData = [];
 
-    private $_uFile  = '';
-    private $_uEXT   = EXT;
-    private $_uData  = [];
-    private $uRender = '';
+    private $_uFile   = '';
+    private $_uEXT    = EXT;
+    private $_uData   = [];
 
     public static function gData(array $uData = [])
     {
@@ -19,8 +18,8 @@ class View
 
     public function __construct($uFile, array $uData = [], $uEXT = null)
     {
-        $this->uFile = $uFile;
-        $this->uData = $uData;
+        $this->_uFile = $uFile;
+        $this->_uData = $uData;
 
         if (null !== $uEXT)
         {
@@ -32,19 +31,17 @@ class View
     {
         $uPathFile = APPPATH . 'Views' . DS;
 
-        $uFileName = str_replace('.', DS, $this->uFile) . $this->_uEXT;
+        $uFileName = str_replace('.', DS, $this->_uFile) . $this->_uEXT;
 
-        $uFullPathFile = $uPathFile . $uFileName;
-
-        if ( ! is_readable($uFullPathFile))
+        if ( ! is_readable($uFullPathFile = $uPathFile . $uFileName))
         {
-            throw new Exception('Не существует вид: :uFile, полный путь: :uPathFile', [
-                ':uFile'     => $this->uFile,
+            throw new Exception('Не существует вид: :uFile, полный путь: :uFullPathFile', [
+                ':uFile'         => $this->_uFile,
                 ':uFullPathFile' => $uFullPathFile
             ]);
         }
 
-        return (new Twig($uPathFile))->render($uFileName, array_merge($this->uData, self::$_uGData));
+        return (new Twig($uPathFile))->render($uFileName, array_merge($this->_uData, self::$_uGData));
     }
     
 }
