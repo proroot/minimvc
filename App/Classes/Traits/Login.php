@@ -1,6 +1,6 @@
 <?php namespace Traits;
 
-use Core\Exception\Exception;
+use Core\Exception\CoreException;
 
 trait Login
 {

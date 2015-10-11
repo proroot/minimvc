@@ -1,7 +1,7 @@
 <?php namespace Core;
 
 use Core\Route;
-use Core\Exception\Exception;
+use Core\Exception\CoreException;
 
 class Request
 {
@@ -49,7 +49,15 @@ class Request
 		{
 			self::$_uInstance->ajax(true);
 		}
-	
+
+		if (self::$_uInstance->method() != 'GET')
+		{
+			self::$_uInstance->body(json_decode(
+				file_get_contents('php://input'),
+				true
+			));
+		}
+
 		if ( ! empty($_SERVER['HTTP_X_FORWARDED_FOR'])
 			&& ! empty($_SERVER['REMOTE_ADDR'])
 			&& in_array($_SERVER['REMOTE_ADDR'], self::$_uTrustedProxies)
@@ -140,26 +148,17 @@ class Request
 	}
 
 	private $_uController  = null;
-
 	private $_uAction	   = null;
-
 	private $_uClientRoute = null;
-
 	private $_uHost		   = null;
-
 	private $_uPathApp     = null;
-
 	private $_uMethod      = null;
-
 	private $_uUserAgent   = null;
-
 	private $_uClientIP    = null;
-
 	private $_uSecure      = false;
-
 	private $_uReferrer    = null;
-
 	private $_uAjax        = false;
+	private $_uBody        = null;
 
 	public function execute()
 	{
@@ -167,7 +166,7 @@ class Request
 
 		if (empty($uParams))
 		{
-			throw new Exception('Не удалось определить параметры маршрута..');
+			throw new CoreException('Не удалось определить параметры маршрута..');
 		}
 
 		$this->setContentTypeAndCharset();
@@ -187,7 +186,7 @@ class Request
 
 		if ( ! class_exists($uNameController))
 		{
-			throw new Exception('Не существует класс контроллера: :uController', [
+			throw new CoreException('Не существует класс контроллера: :uController', [
 				':uController' => $uNameController
 			]);
 		}
@@ -328,6 +327,18 @@ class Request
 		}
 
 		$this->_uAjax = (bool) $uAjax;
+
+		return $this;
+	}
+
+	public function body($uContent = null)
+	{
+		if (null === $uContent)
+		{
+			return $this->_uBody;
+		}
+
+		$this->_uBody = $uContent;
 
 		return $this;
 	}

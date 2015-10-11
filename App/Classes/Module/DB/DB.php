@@ -2,7 +2,7 @@
 
 use PDO;
 
-use Core\Exception\Exception;
+use Core\Exception\CoreException;
 
 class DB
 {

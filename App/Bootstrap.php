@@ -29,7 +29,7 @@ if (is_readable($uLoadPathComposer = APPPATH . 'Classes/Composer/autoload.php'))
  */
 
 set_exception_handler([
-	'Core\Exception\Exception',
+	'Core\Exception\CoreException',
 	'Handler'
 ]);
 

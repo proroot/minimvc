@@ -1,16 +1,20 @@
 <?php namespace Core\Exception;
 
-class Exception extends \Exception
+use Exception;
+
+class CoreException extends Exception
 {
 	public function __construct($uMessage = '', array $uVariables = [],
-                                $uCode = 0, \Exception $uPrevious = null)
+                                $uCode = 0, Exception $uPrevious = null)
 	{
-        $uMessage = ! empty($uVariables) ? strtr($uMessage, $uVariables) : $uMessage;
+        $uMessage = ! empty($uVariables)
+            ? strtr($uMessage, $uVariables)
+            : $uMessage;
 
 		parent::__construct($uMessage, (int) $uCode, $uPrevious);
 	}
 
-	public static function handler(\Exception $uE)
+	public static function handler(Exception $uE)
 	{
 		if (DEBUG)
         {

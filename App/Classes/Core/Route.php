@@ -1,6 +1,6 @@
 <?php namespace Core;
 
-use Core\Exception\Exception;
+use Core\Exception\CoreException;
 
 class Route
 {
@@ -12,7 +12,7 @@ class Route
 	{
 		if ( ! empty(self::$_uRoutes[$uName]))
 		{
-			throw new Exception('Данный маршрут: :uRoute существует', [
+			throw new CoreException('Данный маршрут: :uRoute существует', [
 				':uRoute' => $uName
 			]);
 		}
@@ -23,7 +23,7 @@ class Route
 
             if (empty($uRoute[0]))
             {
-                throw new Exception('Не удалось определить контроллер');
+                throw new CoreException('Не удалось определить контроллер');
             }
         }
 
@@ -71,28 +71,28 @@ class Route
 		return $this;
 	}
 
-	private function RM($uTypes)
+	public function RM($uTypes)
 	{
 		$this->_uDefaults['RM'] = explode('|', $uTypes);
 
 		return $this;
 	}
 
-    private function callback($uRoute)
+    public function callback($uRoute)
     {
         $this->_uDefaults['uCallback'] = $uRoute;
 
         return $this;
     }
 
-	private function controller($uController)
+	public function controller($uController)
 	{
 		$this->_uDefaults['uController'] = $uController;
 
 		return $this;
 	}
 
-	private function action($uAction)
+	public function action($uAction)
 	{
 		$this->_uDefaults['uAction'] = $uAction;
 

@@ -1,6 +1,6 @@
 <?php namespace Core;
 
-use Core\Exception\Exception;
+use Core\Exception\CoreException;
 use Module\Twig\Twig;
 
 class View
@@ -35,13 +35,17 @@ class View
 
         if ( ! is_readable($uFullPathFile = $uPathFile . $uFileName))
         {
-            throw new Exception('Не существует вид: :uFile, полный путь: :uFullPathFile', [
+            throw new CoreException('Не существует вид: :uFile, полный путь: :uFullPathFile', [
                 ':uFile'         => $this->_uFile,
                 ':uFullPathFile' => $uFullPathFile
             ]);
         }
 
-        return (new Twig($uPathFile))->render($uFileName, array_merge($this->_uData, self::$_uGData));
+        return (new Twig($uPathFile))
+            ->render(
+                $uFileName,
+                array_merge($this->_uData, self::$_uGData)
+            );
     }
-    
+
 }

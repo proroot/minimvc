@@ -1,6 +1,6 @@
 <?php
 
-use Core\Exception\Exception;
+use Core\Exception\CoreException;
 use Core\View;
 use Core\Model;
 use Module\DB\DB;
